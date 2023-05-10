@@ -53,3 +53,46 @@ class Control():
         self.state_dict = {}
         self.state_name = None
         self.state = None
+
+    def setup_states(self, state_dict, start_state):
+        self.state_dict = state_dict
+        self.state_name = start_state #상태 나타내는 문자열 start_name
+        self.state = self.state_dict[self.state_name] #상태문자열 딕셔너리 넣고 state에 넣기
+    
+    def update(self):
+        self.current_time = pg.time.get_ticks() #시간가져오기 
+        if self.state.done:
+            self.change_state() #상태 끝나면 변환
+        self.state.update(self.screen, self.keys, self.current_time)
+    
+    def change_state(self): #flip state 
+        previous = self.state_name
+        self.state_name = self.state.next
+        persist = self.state.cleanup() #유지데이터 삭제
+        self.state = self.state_dict[self.state_name] 
+        self.state.startup(self.current_time, persist) #새시작
+
+    #이벤트 받아서 입력처리
+    def event_loop(self):
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                self.done = True
+            elif event.type == pg.KEYDOWN:
+                self.keys = pg.key.get_pressed()
+            elif event.type == pg.KEYUP:
+                self.keys = pg.key.get_pressed()
+    
+    #메인. 반복루프->업데이트, 프레임 조절
+    def main(self):
+        while not self.done :
+            self.event_loop()
+            self.update()
+            pg.display.update() 
+            self.clock.tick(self.fps) #프레임
+
+
+
+
+
+
+
