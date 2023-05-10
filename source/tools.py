@@ -90,6 +90,33 @@ class Control():
             pg.display.update() 
             self.clock.tick(self.fps) #프레임
 
+#그래픽 파일 가져오기, 그래픽 파일 경로:directory
+import os 
+def load_gfx(directory, colorkey=(255,0,255), accept=('.png', '.jpg', '.bmp', '.gif')): 
+    graphics = {}
+    for pic in os.listdir(directory): #디렉토리 내 파일목록 가져오기
+        name, ext = os.path.splitext(pic) #확장자 추출
+        if ext.lower() in accept:  
+            img = pg.image.load(os.path.join(directory, pic))
+            #배경이미지와 캐릭터 조합 위한 코드. 이후 수정할지도.
+            #투명도 있으면 이미지 변환
+            if img.get_alpha(): 
+                img = img.convert_alpha()
+            #이미지 RGB변환 후 마젠타색 투명화
+            else:
+                img = img.convert()
+                img.set_colorkey(colorkey)
+            graphics[name] = img  #딕셔너리 반환. key는 name, 값은 img
+    return graphics
+
+
+
+
+
+
+
+
+
 
 
 
