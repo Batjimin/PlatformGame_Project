@@ -50,11 +50,10 @@ SMALL_TO_BIG = 'small to big'
 BIG_TO_FIRE = 'big to fire'
 BIG_TO_SMALL = 'big to small'
 FLAGPOLE = 'flag pole'
-WALK_AUTO = 'walk auto'     # not handle key input in this state
-END_OF_LEVEL_FALL = 'end of level fall'
+WALK_AUTO = 'walk auto'
 IN_CASTLE = 'in castle'
-DOWN_TO_PIPE = 'down to pipe'
-UP_OUT_PIPE = 'up out of pipe'
+DOWN_PIPE = 'pipe down'
+UP_PIPE = 'pipe up'
 
 #플레이어 이동. 중력 조절 필요.
 PLAYER_SPEED = 'speed'
@@ -62,8 +61,8 @@ WALK_ACCEL = 'walk_accel'
 RUN_ACCEL = 'run_accel'
 JUMP_VEL = 'jump_velocity'
 MAX_Y_VEL = 'max_y_velocity'
-MAX_RUN_SPEED = 'max_run_speed'
-MAX_WALK_SPEED = 'max_walk_speed'
+MAX_RUN = 'max_run'
+MAX_WALK = 'max_walk'
 SMALL_TURNAROUND = .35
 JUMP_GRAVITY = .31
 GRAVITY = 1.00
