@@ -1,3 +1,6 @@
+# 게임 타이틀
+TITLE = ' '
+
 # 스크린 크기
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -40,15 +43,16 @@ BRICK_NUM = 'brick_num'
 TYPE_NONE = 0
 TYPE_COIN = 1
 TYPE_STAR = 2
-MAP_BOX = 'box'
+QR_BRICK = 'qr_brick'
 TYPE_COFFEE         = 3          # 커피 (성장 버프)
-TYPE_DRINK          = 4          # 에너지드링크 (속도 버프)
-TYPE_Attendence     = 5          # 생명 추가
+TYPE_REDBULL        = 4          # 레드불 (체공 버프)
+TYPE_HOT6           = 5          # 핫식스 (파이어 볼)
+TYPE_GPT            = 6          # GPT (추락 부분 블록 생성)
 MAP_ENEMY = 'enemy'
 
-ENEMY_TYPE_BOO       = 0
+ENEMY_TYPE_BOO            = 0
 ENEMY_TYPE_ASSIGNMENT     = 1
-#ENEMY_TYPE_PROFESSOR = 2
+#ENEMY_TYPE_PROFESSOR     = 2
 
 #벽돌상태
 STAYED = 'stayed'
