@@ -114,3 +114,8 @@ GROUND_HEIGHT = SCREEN_HEIGHT - 62
 
 # 제한 시간
 TIME_LIMIT = 300
+
+# 이미지 시트
+PLAYER_SHEET    = 'player_sheet'    # 플레이어 시트
+ENEMY_SHEET     = 'enemy_sheet'     # 몹 시트
+OBJECTS_SHEET    = 'objects_sheet'   # 아이템, 오브젝트 시트
