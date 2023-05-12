@@ -34,6 +34,21 @@ TOP_SCORE = 'top score'
 Attendence = 'attendence' #생명 = 출석
 CURRENT_TIME = 'current time'
 YOUR_NAME = 'player name'
+MAP_BUS = 'BUS'         # 교내 셔틀 (파이프와 같은 역할)
+MAP_BRICK = 'brick'     # QR코드 벽돌
+BRICK_NUM = 'brick_num'
+TYPE_NONE = 0
+TYPE_COIN = 1
+TYPE_STAR = 2
+MAP_BOX = 'box'
+TYPE_COFFEE         = 3          # 커피 (성장 버프)
+TYPE_DRINK          = 4          # 에너지드링크 (속도 버프)
+TYPE_Attendence     = 5          # 생명 추가
+MAP_ENEMY = 'enemy'
+
+ENEMY_TYPE_BOO       = 0
+ENEMY_TYPE_ASSIGNMENT     = 1
+#ENEMY_TYPE_PROFESSOR = 2
 
 #벽돌상태
 STAYED = 'stayed'
@@ -82,3 +97,16 @@ BOTTOM_OF_POLE = 'pole bottom'
 FLYING = 'flying'
 BOUNCING = 'bouncing'
 EXPLODING = 'exploding'
+
+# 아이템 상태
+REVEAL = 'reveal'
+SLIDE = 'slide'
+
+# 배율
+SIZE_MULTIPLIER = 2.5
+BRICK_SIZE_MULTIPLIER = 2.69
+BACKGROUND_MULTIPLER = 2.679
+GROUND_HEIGHT = SCREEN_HEIGHT - 62
+
+# 제한 시간
+TIME_LIMIT = 300
