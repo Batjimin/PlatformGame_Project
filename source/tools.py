@@ -18,7 +18,7 @@ def get_image(sheet, x, y, width, height, colorkey, scale):
     rect = image.get_rect()
     image.set_colorkey(colorkey)
     
-#상태 *부모함수* 정의
+#상태 *부모 클래스* 정의
 class State():
     def __init__(self):
         self.start_time = 0.0
