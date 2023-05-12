@@ -21,8 +21,8 @@ NEAR_BLACK   = ( 19,  15,  48)
 GOLD         = (255, 215,   0)
 
 #게임 시스템
-MAIN_MENU = 'main menu'
-LOAD_SCREEN = 'load screen'
+MENU = 'main menu'
+LOADING = 'load screen'
 TIME_OUT = 'time out'
 GAME_OVER = 'game over'
 LEVEL = 'level'
