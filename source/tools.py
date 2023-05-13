@@ -12,11 +12,14 @@ keybinding = {
     'down' : pg.K_DOWN 
 } 
 
-#이미지 받아오기
+#이미지 받아오기 *sheet는 이미지 시트(Surface class), colorkey는 투명영역. 참고.
 def get_image(sheet, x, y, width, height, colorkey, scale):
     image = pg.Surface([width,height])
     rect = image.get_rect()
     image.set_colorkey(colorkey)
+    image.blit(sheet,(0,0),(x,y,width,height)) #시트에서 이미지 가져오기
+    image = pg.transform.scale(image, int((rect.width*scale),int(rect.height*scale)))
+    return image
     
 #상태 *부모 클래스* 정의
 class State():
