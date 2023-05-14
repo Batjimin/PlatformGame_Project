@@ -1,5 +1,5 @@
-import pygame as pg
-from . import setup, tools
+
+from . import tools
 from . import Setting as Set
 from . state import Menu, Loading, System
 
