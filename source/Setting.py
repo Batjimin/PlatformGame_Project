@@ -1,6 +1,3 @@
-# 게임 타이틀
-TITLE = ' '
-
 # 스크린 크기
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -34,7 +31,7 @@ LEVEL = 'level'
 TOTAL_COIN = 'total coin'
 SCORE = 'score'
 TOP_SCORE = 'top score'
-Attendence = 'attendence' #생명 = 출석
+ATTENDENCE = 'attendence' #생명 = 출석
 CURRENT_TIME = 'current time'
 YOUR_NAME = 'player name'
 MAP_BUS = 'BUS'         # 교내 셔틀 (파이프와 같은 역할)
@@ -43,16 +40,15 @@ BRICK_NUM = 'brick_num'
 TYPE_NONE = 0
 TYPE_COIN = 1
 TYPE_STAR = 2
-QR_BRICK = 'qr_brick'
+MAP_BOX = 'box'
 TYPE_COFFEE         = 3          # 커피 (성장 버프)
-TYPE_REDBULL        = 4          # 레드불 (체공 버프)
-TYPE_HOT6           = 5          # 핫식스 (파이어 볼)
-TYPE_GPT            = 6          # GPT (추락 부분 블록 생성)
+TYPE_DRINK          = 4          # 에너지드링크 (속도 버프)
+TYPE_Attendence     = 5          # 생명 추가
 MAP_ENEMY = 'enemy'
 
-ENEMY_TYPE_BOO            = 0
+ENEMY_TYPE_BOO       = 0
 ENEMY_TYPE_ASSIGNMENT     = 1
-#ENEMY_TYPE_PROFESSOR     = 2
+#ENEMY_TYPE_PROFESSOR = 2
 
 #벽돌상태
 STAYED = 'stayed'
@@ -114,8 +110,3 @@ GROUND_HEIGHT = SCREEN_HEIGHT - 62
 
 # 제한 시간
 TIME_LIMIT = 300
-
-# 이미지 시트
-PLAYER_SHEET    = 'player_sheet'    # 플레이어 시트
-ENEMY_SHEET     = 'enemy_sheet'     # 몹 시트
-OBJECTS_SHEET    = 'objects_sheet'   # 아이템, 오브젝트 시트

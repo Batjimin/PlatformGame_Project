@@ -28,3 +28,6 @@ class Coin(pg.sprite.Sprite):
         for frame_rect in frame_rect_list:
             self.frames.append(tools.get_image(
                 sheet, *frame_rect, s.BLACK, s.BRICK_SIZE_MULTIPLIER))
+    
+    def update(self, game_info):
+        self.current_time = game_info[s.CURRENT_TIME]
