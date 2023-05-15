@@ -70,7 +70,7 @@ class Control():
         self.state.update(self.screen, self.keys, self.current_time)
     
     def change_state(self): #flip state 
-        previous = self.state_name
+        self.previous = self.state_name
         self.state_name = self.state.next
         persist = self.state.cleanup() #유지데이터 삭제
         self.state = self.state_dict[self.state_name] 
