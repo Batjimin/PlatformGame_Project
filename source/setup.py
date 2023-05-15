@@ -1,5 +1,5 @@
-import pygame as pg
 import os
+import pygame as pg
 from . import Setting as Set
 from . import tools
 pg.init()
