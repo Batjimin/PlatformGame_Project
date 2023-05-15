@@ -34,6 +34,8 @@ TOP_SCORE = 'top score'
 ATTENDENCE = 'attendence' #생명 = 출석
 CURRENT_TIME = 'current time'
 YOUR_NAME = 'player name'
+PLAYER = 'player'
+
 MAP_BUS = 'BUS'         # 교내 셔틀 (파이프와 같은 역할)
 MAP_BRICK = 'brick'     # QR코드 벽돌
 BRICK_NUM = 'brick_num'
@@ -43,7 +45,7 @@ TYPE_STAR = 2
 MAP_BOX = 'box'
 TYPE_COFFEE         = 3          # 커피 (성장 버프)
 TYPE_DRINK          = 4          # 에너지드링크 (속도 버프)
-TYPE_Attendence     = 5          # 생명 추가
+TYPE_ATTENDENCE     = 5          # 생명 추가
 MAP_ENEMY = 'enemy'
 
 ENEMY_TYPE_BOO       = 0
@@ -110,3 +112,7 @@ GROUND_HEIGHT = SCREEN_HEIGHT - 62
 
 # 제한 시간
 TIME_LIMIT = 300
+
+#이미지 시트
+ITEM_IMAGE = 'item_images'
+ENEMY_IMAGE = 'enemy_images'

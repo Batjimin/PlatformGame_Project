@@ -51,3 +51,42 @@ class Menu(tools.State):
         
         self.persist = self.game_info
         
+    def setup_cursor(self):
+        self.cursor = pg.sprite.Sprite()
+        self.cursor.image = tools.get_image(setup.GFX[Set.ITEM_IMAGE], 24, 160, 8, 8, Set.BLACK, 3)
+        rect = self.cursor.image.get_rect()
+        rect.x, rect.y = (220, 358)
+        self.cursor.rect = rect
+        self.cursor.state = Set.PLAYER
+
+    def update(self, surface, keys, current_time):
+        self.current_time = current_time
+        self.game_info[Set.CURRENT_TIME] = self.current_time
+        self.player_image = self.player_list[self.player_index][0]
+        self.player_rect = self.player_list[self.player_index][1]
+        self.update_cursor(keys)
+        self.overhead_info.update(self.game_info)
+
+        surface.blit(self.background, self.viewport, self.viewport)
+        surface.blit(self.image_dict['GAME_NAME_BOX'][0],
+                     self.image_dict['GAME_NAME_BOX'][1])
+        surface.blit(self.player_image, self.player_rect)
+        surface.blit(self.cursor.image, self.cursor.rect)
+        self.overhead_info.draw(surface)
+            
+    def update_cursor(self,keys):
+        self.cursor.rect.y = 358
+        if keys[pg.K_RETURN]:
+            self.reset_game_info()
+            self.done = True
+            
+    def setup_player(self):
+        self.player_list = []
+        player_rect_info = [(178, 32, 12, 16), (178, 128, 12, 16)]
+        for rect in player_rect_info:
+            image = tools.get_image(setup.GFX['chara_images'],
+                                *rect, Set.BLACK, 2.9)
+            rect = image.get_rect()
+            rect.x, rect.bottom = 110, Set.GROUND_HEIGHT
+            self.player_list.append((image, rect))
+        self.player_index = 0
