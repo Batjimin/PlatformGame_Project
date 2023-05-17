@@ -1,4 +1,4 @@
 {
-    "image_name" : ""
-
+    "image_name" : "player_char",
+    "maps" : [{},{},{}]
 }
