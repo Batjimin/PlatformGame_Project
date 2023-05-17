@@ -139,7 +139,7 @@ class Star(Powerup):
                 self.state = Set.BOUNCING
         elif self.state == Set.BOUNCING:
             self.y_vel += self.gravity
-            self.x_vel = self.speed if self.direction == Setc.RIGHT else -1 * self.speed
+            self.x_vel = self.speed if self.direction == Set.RIGHT else -1 * self.speed
 
         if (self.current_time - self.animate_timer) > 30:
             if self.frame_index < 3:
@@ -148,7 +148,7 @@ class Star(Powerup):
                 self.frame_index = 0
             self.animate_timer = self.current_time
 
-        if self.state == c.BOUNCING:
+        if self.state == Set.BOUNCING:
             self.update_position(level)
         self.animation()
 

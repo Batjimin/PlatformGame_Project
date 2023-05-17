@@ -116,3 +116,4 @@ TIME_LIMIT = 300
 #이미지 시트
 ITEM_IMAGE = 'item_images'
 ENEMY_IMAGE = 'enemy_images'
+
