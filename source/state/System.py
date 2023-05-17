@@ -4,7 +4,7 @@ import json
 import pygame as pg
 from .. import setup, tools
 from .. import Setting as Set
-from ..components import Info, stuff, player, brick, QR_brick, enemies, powerup, Coin
+from ..components import Info, Etc, player, tile, QR_brick, enemies, powerup, Coin
 
 class System(tools.State):
     def __init__(self):
