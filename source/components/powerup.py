@@ -1,12 +1,12 @@
 import pygame as pg
 from .. import setup, tools
 from .. import Setting as Set
-from . import stuff
+from . import Etc
 
 
 class Powerup(stuff.Stuff):
     def __init__(self, x, y, sheet, image_rect_list, scale):
-        stuff.Stuff.__init__(self, x, y, sheet, image_rect_list, scale)
+        Etc.Stuff.__init__(self, x, y, sheet, image_rect_list, scale)
         self.rect.centerx = x
         self.state = Set.REVEAL
         self.y_vel = -1
@@ -59,11 +59,11 @@ class Powerup(stuff.Stuff):
         self.image = self.frames[self.frame_index]
 
 
-class Mushroom(Powerup):
+class Coffee(Powerup):
     def __init__(self, x, y):
-        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_SHEET],
+        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
                          [(0, 0, 16, 16)], Set.SIZE_MULTIPLIER)
-        self.type = Set.TYPE_MUSHROOM
+        self.type = Set.TYPE_COFFEE
         self.speed = 2
 
     def update(self, game_info, level):
@@ -84,21 +84,21 @@ class Mushroom(Powerup):
         self.animation()
 
 
-class LifeMushroom(Mushroom):
+class ATTENDENCE(Coffee):
     def __init__(self, x, y):
-        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_SHEET],
+        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
                          [(16, 0, 16, 16)], Set.SIZE_MULTIPLIER)
         self.type = Set.TYPE_LIFEMUSHROOM
         self.speed = 2
 
 
-class FireFlower(Powerup):
+class Drink(Powerup):
     def __init__(self, x, y):
         frame_rect_list = [(0, 32, 16, 16), (16, 32, 16, 16),
                            (32, 32, 16, 16), (48, 32, 16, 16)]
-        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_SHEET],
+        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
                          frame_rect_list, Set.SIZE_MULTIPLIER)
-        self.type = Set.TYPE_FIREFLOWER
+        self.type = Set.TYPE_DRINK
 
     def update(self, game_info, *args):
         self.current_time = game_info[Set.CURRENT_TIME]
@@ -123,7 +123,7 @@ class Star(Powerup):
     def __init__(self, x, y):
         frame_rect_list = [(1, 48, 15, 16), (17, 48, 15, 16),
                            (33, 48, 15, 16), (49, 48, 15, 16)]
-        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_SHEET],
+        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
                          frame_rect_list, Set.SIZE_MULTIPLIER)
         self.type = Set.TYPE_STAR
         self.gravity = .4
@@ -166,16 +166,16 @@ class Star(Powerup):
                 self.y_vel = -5
 
 
-class FireBall(Powerup):
+class REDBULL(Powerup):
     def __init__(self, x, y, facing_right):
         # first 3 Frames are flying, last 4 frams are exploding
         frame_rect_list = [(96, 144, 8, 8), (104, 144, 8, 8),
                            (96, 152, 8, 8), (104, 152, 8, 8),
                            (112, 144, 16, 16), (112, 160, 16, 16),
                            (112, 176, 16, 16)]
-        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_SHEET],
+        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
                          frame_rect_list, Set.SIZE_MULTIPLIER)
-        self.type = Set.TYPE_FIREBALL
+        self.type = Set.TYPE_REDBULL
         self.y_vel = 10
         self.gravity = .9
         self.state = Set.FLYING
