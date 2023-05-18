@@ -20,6 +20,12 @@ BLACK        = (  0,   0,   0)
 NEAR_BLACK   = ( 19,  15,  48)
 GOLD         = (255, 215,   0)
 
+# 구성요소 색
+COLOR = 'color'
+COLOR_TYPE_ORANGE = 0
+COLOR_TYPE_GREEN = 1
+COLOR_TYPE_RED = 2
+
 #게임 시스템
 MENU = 'main menu'
 LOADING = 'load screen'
@@ -43,14 +49,15 @@ TYPE_NONE = 0
 TYPE_COIN = 1
 TYPE_STAR = 2
 MAP_BOX = 'box'
-TYPE_COFFEE         = 3          # 커피 (성장 버프)
-TYPE_DRINK          = 4          # 에너지드링크 (속도 버프)
-TYPE_REDBULL        = 5
-TYPE_ATTENDENCE     = 6          # 생명 추가
-MAP_ENEMY = 'enemy'
+TYPE_COFFEE         = 3          # 커피     (성장 버프)
+TYPE_DRINK          = 4          # 핫식스   (파이어 볼)
+TYPE_REDBULL        = 5          # 레드불   (fly)
+TYPE_GPT            = 6          # gpt형태  (블록 생성)
+MAP_ENEMY   = 'enemy'
+ENEMY_RANGE = 'range'
 
-ENEMY_TYPE_BOO       = 0
-ENEMY_TYPE_ASSIGNMENT     = 1
+ENEMY_TYPE_BOO            = 0   # 부 형태의 몬스터
+ENEMY_TYPE_ASSIGNMENT     = 1   # 과제 형태의 몬스터
 #ENEMY_TYPE_PROFESSOR = 2
 
 #벽돌상태
