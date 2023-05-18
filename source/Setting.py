@@ -47,12 +47,13 @@ MAP_BRICK = 'brick'     # QR코드 벽돌
 BRICK_NUM = 'brick_num'
 TYPE_NONE = 0
 TYPE_COIN = 1
-TYPE_STAR = 2
-MAP_BOX = 'box'
+TYPE_PAPER = 2          # 족보(임시)
+MAP_BOX   = 'box'
 TYPE_COFFEE         = 3          # 커피     (성장 버프)
-TYPE_DRINK          = 4          # 핫식스   (파이어 볼)
+TYPE_HOT6           = 4          # 핫식스   (파이어 볼)
 TYPE_REDBULL        = 5          # 레드불   (fly)
 TYPE_GPT            = 6          # gpt형태  (블록 생성)
+
 MAP_ENEMY   = 'enemy'
 ENEMY_RANGE = 'range'
 

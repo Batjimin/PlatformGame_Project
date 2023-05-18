@@ -84,21 +84,21 @@ class Coffee(Powerup):
         self.animation()
 
 
-class ATTENDENCE(Coffee):
+class Life_Coffee(Coffee):
     def __init__(self, x, y):
         Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
                          [(16, 0, 16, 16)], Set.SIZE_MULTIPLIER)
-        self.type = Set.TYPE_LIFEMUSHROOM
+        self.type = Set.TYPE_COFFEE
         self.speed = 2
 
 
-class Drink(Powerup):
+class HOT6(Powerup):  # 파이어 볼
     def __init__(self, x, y):
         frame_rect_list = [(0, 32, 16, 16), (16, 32, 16, 16),
                            (32, 32, 16, 16), (48, 32, 16, 16)]
         Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
                          frame_rect_list, Set.SIZE_MULTIPLIER)
-        self.type = Set.TYPE_DRINK
+        self.type = Set.TYPE_HOT6
 
     def update(self, game_info, *args):
         self.current_time = game_info[Set.CURRENT_TIME]
@@ -107,7 +107,7 @@ class Drink(Powerup):
             if self.rect.bottom <= self.box_height:
                 self.rect.bottom = self.box_height
                 self.y_vel = 0
-                self.state = Set.RESTING
+                self.state = Set.STAYED
 
         if (self.current_time - self.animate_timer) > 30:
             if self.frame_index < 3:
@@ -119,13 +119,13 @@ class Drink(Powerup):
         self.animation()
 
 
-class Star(Powerup):
+class Paper(Powerup):
     def __init__(self, x, y):
         frame_rect_list = [(1, 48, 15, 16), (17, 48, 15, 16),
                            (33, 48, 15, 16), (49, 48, 15, 16)]
         Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
                          frame_rect_list, Set.SIZE_MULTIPLIER)
-        self.type = Set.TYPE_STAR
+        self.type = Set.TYPE_PAPER
         self.gravity = .4
         self.speed = 5
 
@@ -166,9 +166,8 @@ class Star(Powerup):
                 self.y_vel = -5
 
 
-class REDBULL(Powerup):
+class REDBULL(Powerup): # 플라이
     def __init__(self, x, y, facing_right):
-        # first 3 Frames are flying, last 4 frams are exploding
         frame_rect_list = [(96, 144, 8, 8), (104, 144, 8, 8),
                            (96, 152, 8, 8), (104, 152, 8, 8),
                            (112, 144, 16, 16), (112, 160, 16, 16),
