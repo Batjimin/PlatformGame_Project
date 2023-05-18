@@ -45,6 +45,18 @@ class System(tools.State):
         group = pg.sprite.Group()
         if name in self.map_data:
             for data in self.map_data[name]:
-                group.add(stuff.Collider(data['x'], data['y'], 
+                group.add(Etc.Collider(data['x'], data['y'], 
                         data['width'], data['height'], name))
         return group
+    
+    def setup_background(self):
+        img_name = self.map_data[Set.MAP_IMAGE]
+        self.background = setup.GFX[img_name]
+        self.bg_rect = self.background.get_rect()
+        self.background = pg.transform.scale(self.background, 
+                                    (int(self.bg_rect.width*Set.BACKGROUND_MULTIPLER),
+                                    int(self.bg_rect.height*Set.BACKGROUND_MULTIPLER)))
+        self.bg_rect = self.background.get_rect()
+
+        self.level = pg.Surface((self.bg_rect.w, self.bg_rect.h)).convert()
+        self.viewport = setup.SCREEN.get_rect(bottom=self.bg_rect.bottom)

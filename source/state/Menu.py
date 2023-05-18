@@ -1,4 +1,4 @@
-#메인 메뉴 등 구성. 미완
+#메인 메뉴 등 구성. 주석없음
 import pygame as pg
 from .. import tools
 from .. import setup

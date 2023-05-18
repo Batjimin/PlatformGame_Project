@@ -45,7 +45,8 @@ TYPE_STAR = 2
 MAP_BOX = 'box'
 TYPE_COFFEE         = 3          # 커피 (성장 버프)
 TYPE_DRINK          = 4          # 에너지드링크 (속도 버프)
-TYPE_ATTENDENCE     = 5          # 생명 추가
+TYPE_REDBULL        = 5
+TYPE_ATTENDENCE     = 6          # 생명 추가
 MAP_ENEMY = 'enemy'
 
 ENEMY_TYPE_BOO       = 0
