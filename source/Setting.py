@@ -37,7 +37,7 @@ LEVEL = 'level'
 TOTAL_COIN = 'total coin'
 SCORE = 'score'
 TOP_SCORE = 'top score'
-ATTENDENCE = 'attendence' #생명 = 출석
+ATTENDENCE = 'attendence' # 생명 = 출석
 CURRENT_TIME = 'current time'
 YOUR_NAME = 'player name'
 PLAYER = 'player'
@@ -48,7 +48,7 @@ BRICK_NUM = 'brick_num'
 TYPE_NONE = 0
 TYPE_COIN = 1
 TYPE_PAPER = 2          # 족보(임시)
-MAP_BOX   = 'box'
+MAP_QR     = 'QR_brick'
 TYPE_COFFEE         = 3          # 커피     (성장 버프)
 TYPE_HOT6           = 4          # 핫식스   (파이어 볼)
 TYPE_REDBULL        = 5          # 레드불   (fly)

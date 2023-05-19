@@ -6,7 +6,7 @@ from . import Coin, powerup
 
 
 class QR_brick(pg.sprite.sprite):
-    def __init__(self, x, y, type, group=None, name=s.QR_BRICK):
+    def __init__(self, x, y, type, group=None, name=s.MAP_QR):
         pg.sprite.Sprite.__init__(self)
 
         self.frames = []
@@ -19,7 +19,7 @@ class QR_brick(pg.sprite.sprite):
 
         self.rest_height = y
         self.animation_timer = 0
-        self.first_half = True   # First half of animation cycle
+        self.first_half = True
         self.state = s.STAYED
         self.y_vel = 0
         self.gravity = 1.2
@@ -29,7 +29,7 @@ class QR_brick(pg.sprite.sprite):
 
     def update(self, game_info):
         self.current_time = game_info[s.CURRENT_TIME]
-        if self.state == s.RESTING:
+        if self.state == s.STAYED:
             self.resting()
         elif self.state == s.BUMPED:
             self.bumped()
@@ -43,26 +43,33 @@ class QR_brick(pg.sprite.sprite):
             self.animation_timer = self.current_time
 
         self.image = self.frames[self.frame_index]
-    
+
     def bumped(self):
         self.rect.y += self.y_vel
         self.y_vel += self.gravity
-        
+
         if self.rect.y > self.rest_height + 5:
             self.rect.y = self.rest_height
             self.state = s.OPENED
-            if self.type == s.TYPE_MUSHROOM:
-                self.group.add(powerup.Mushroom(self.rect.centerx, self.rect.y))
-            elif self.type == s.TYPE_FIREFLOWER:
-                self.group.add(powerup.FireFlower(self.rect.centerx, self.rect.y))
-            elif self.type == s.TYPE_LIFEMUSHROOM:
-                self.group.add(powerup.ATTENDENCE(self.rect.centerx, self.rect.y))
+            if self.type == s.TYPE_COFFEE:
+                self.group.add(powerup.Coffee(self.rect.centerx, self.rect.y))
+            elif self.type == s.TYPE_HOT6:
+                self.group.add(powerup.HOT6(self.rect.centerx, self.rect.y))
         self.frame_index = 4
         self.image = self.frames[self.frame_index]
-    
+
     def start_bump(self, score_group):
         self.y_vel = -6
         self.state = s.BUMPED
-        
+
         if self.type == s.TYPE_COIN:
-            self.group.add(Coin.Coin(self.rect.centerx, self.rect.y, score_group))
+            self.group.add(Coin.Coin(self.rect.centerx,
+                           self.rect.y, score_group))
+
+    def load_frames(self):
+        sheet = setup.GFX['tile_set']
+        frame_rect_list = [(384, 0, 16, 16), (400, 0, 16, 16),
+                           (416, 0, 16, 16), (400, 0, 16, 16), (432, 0, 16, 16)]
+        for frame_rect in frame_rect_list:
+            self.frames.append(tools.get_image(
+                sheet, *frame_rect, s.BLACK, s.BRICK_SIZE_MULTIPLIER))

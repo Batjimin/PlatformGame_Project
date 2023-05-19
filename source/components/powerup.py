@@ -83,15 +83,6 @@ class Coffee(Powerup):
             self.update_position(level)
         self.animation()
 
-
-class Life_Coffee(Coffee):
-    def __init__(self, x, y):
-        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
-                         [(16, 0, 16, 16)], Set.SIZE_MULTIPLIER)
-        self.type = Set.TYPE_COFFEE
-        self.speed = 2
-
-
 class HOT6(Powerup):  # 파이어 볼
     def __init__(self, x, y):
         frame_rect_list = [(0, 32, 16, 16), (16, 32, 16, 16),
@@ -232,12 +223,6 @@ class REDBULL(Powerup): # 플라이
                 else:
                     self.x_vel = -15
                 self.state = Set.BOUNCING
-        elif enemy:
-            if (enemy.name != Set.FIRESTICK):
-                level.update_score(100, enemy, 0)
-                level.move_to_dying_group(level.enemy_group, enemy)
-                enemy.start_death_jump(self.direction)
-            self.change_to_explode()
 
     def change_to_explode(self):
         self.frame_index = 4
