@@ -27,7 +27,7 @@ class System(tools.State):
         self.setup_pipe()
         self.setup_slider()
         self.setup_static_coin()
-        self.setup_brick_and_box()
+        self.setup_tile_and_box()
         self.setup_player()
         self.setup_enemies()
         self.setup_checkpoints()
@@ -60,3 +60,34 @@ class System(tools.State):
 
         self.level = pg.Surface((self.bg_rect.w, self.bg_rect.h)).convert()
         self.viewport = setup.SCREEN.get_rect(bottom=self.bg_rect.bottom)
+
+    def setup_tile_and_box(self):
+        self.coin_group = pg.sprite.Group()
+        self.powerup_group = pg.sprite.Group()
+        self.tile_group = pg.sprite.Group()
+        self.tilepiece_group = pg.sprite.Group()
+
+    def draw(self, surface): #이게...맞나?
+        self.level.blit(self.background, self.viewport, self.viewport)
+        self.powerup_group.draw(self.level)
+        self.tile_group.draw(self.level)
+        self.box_group.draw(self.level)
+        self.coin_group.draw(self.level)
+        self.dying_group.draw(self.level)
+        self.tilepiece_group.draw(self.level)
+        self.flagpole_group.draw(self.level)
+        self.shell_group.draw(self.level)
+        self.enemy_group.draw(self.level)
+        self.player_group.draw(self.level)
+        self.static_coin_group.draw(self.level)
+        self.slider_group.draw(self.level)
+        self.pipe_group.draw(self.level)
+        for score in self.moving_score_list:
+            score.draw(self.level)
+        if Set.DEBUG:
+            self.ground_step_pipe_group.draw(self.level)
+            self.checkpoint_group.draw(self.level)
+
+        surface.blit(self.level, (0,0), self.viewport)
+        self.overhead_info.draw(surface)
+        

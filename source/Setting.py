@@ -19,12 +19,14 @@ CYAN         = (  0, 255, 255)
 BLACK        = (  0,   0,   0)
 NEAR_BLACK   = ( 19,  15,  48)
 GOLD         = (255, 215,   0)
+BROWN        = ()
 
 # 구성요소 색
 COLOR = 'color'
 COLOR_TYPE_ORANGE = 0
 COLOR_TYPE_GREEN = 1
 COLOR_TYPE_RED = 2
+COLOR_TYPE_BROWN = 3
 
 #게임 시스템
 MENU = 'main menu'
@@ -43,8 +45,8 @@ YOUR_NAME = 'player name'
 PLAYER = 'player'
 
 MAP_BUS = 'BUS'         # 교내 셔틀 (파이프와 같은 역할)
-MAP_BRICK = 'brick'     # QR코드 벽돌
-BRICK_NUM = 'brick_num'
+MAP_TILE = 'tile'     # QR코드 타일
+TILE_NUM = 'tile_num'
 TYPE_NONE = 0
 TYPE_COIN = 1
 TYPE_PAPER = 2          # 족보(임시)
@@ -115,7 +117,7 @@ SLIDE = 'slide'
 
 # 배율
 SIZE_MULTIPLIER = 2.5
-BRICK_SIZE_MULTIPLIER = 2.69
+TILE_SIZE_MULTIPLIER = 2.69
 BACKGROUND_MULTIPLER = 2.679
 GROUND_HEIGHT = SCREEN_HEIGHT - 62
 

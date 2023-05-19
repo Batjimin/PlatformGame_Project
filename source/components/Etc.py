@@ -50,13 +50,13 @@ class Stuff(pg.sprite.Sprite):
 class Pole(Stuff):
     def __init__(self, x, y):
         Stuff.__init__(self, x, y, setup.GFX['tile_set'],
-                       [(263, 144, 2, 16)], Set.BRICK_SIZE_MULTIPLIER)
+                       [(263, 144, 2, 16)], Set.TILE_SIZE_MULTIPLIER)
 
 
 class PoleTop(Stuff):
     def __init__(self, x, y):
         Stuff.__init__(self, x, y, setup.GFX['tile_set'],
-                       [(228, 120, 8, 8)], Set.BRICK_SIZE_MULTIPLIER)
+                       [(228, 120, 8, 8)], Set.TILE_SIZE_MULTIPLIER)
 
 
 class Flag(Stuff):
@@ -112,7 +112,7 @@ class Score():
         digit_string = '0123456789'
         for digit, image_rect in zip(digit_string, digit_rect_list):
             self.image_dict[digit] = tools.get_image(setup.GFX[Set.ITEM_SHEET],
-                                                     *image_rect, Set.BLACK, Set.BRICK_SIZE_MULTIPLIER)
+                                                     *image_rect, Set.BLACK, Set.TILE_SIZE_MULTIPLIER)
 
     def create_score_digit(self):
         self.digit_group = pg.sprite.Group()
@@ -144,7 +144,7 @@ class Pipe(Stuff):
         else:
             rect = [(0, 160, 32, 30)]
         Stuff.__init__(self, x, y, setup.GFX['tile_set'],
-                       rect, Set.BRICK_SIZE_MULTIPLIER)
+                       rect, Set.TILE_SIZE_MULTIPLIER)
         self.name = name
         self.type = type
         if type != Set.PIPE_TYPE_HORIZONTAL:

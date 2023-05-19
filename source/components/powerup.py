@@ -31,7 +31,7 @@ class Powerup(stuff.Stuff):
 
     def check_x_collisions(self, level):
         sprite_group = pg.sprite.Group(level.ground_step_pipe_group,
-                                       level.brick_group, level.box_group)
+                                       level.tile_group, level.box_group)
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         if sprite:
             if self.direction == Set.RIGHT:
@@ -41,12 +41,12 @@ class Powerup(stuff.Stuff):
                 self.rect.left = sprite.rect.right
                 self.direction = Set.RIGHT
             self.x_vel = self.speed if self.direction == Set.RIGHT else -1 * self.speed
-            if sprite.name == Set.MAP_BRICK:
+            if sprite.name == Set.MAP_TILE:
                 self.x_vel = 0
 
     def check_y_collisions(self, level):
         sprite_group = pg.sprite.Group(level.ground_step_pipe_group,
-                                       level.brick_group, level.box_group)
+                                       level.tile_group, level.box_group)
 
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         if sprite:
@@ -154,7 +154,7 @@ class Paper(Powerup):
 
     def check_y_collisions(self, level):
         sprite_group = pg.sprite.Group(level.ground_step_pipe_group,
-                                       level.brick_group, level.box_group)
+                                       level.tile_group, level.box_group)
 
         sprite = pg.sprite.spritecollideany(self, sprite_group)
 
@@ -210,14 +210,14 @@ class REDBULL(Powerup): # 플라이
 
     def check_x_collisions(self, level):
         sprite_group = pg.sprite.Group(level.ground_step_pipe_group,
-                                       level.brick_group, level.box_group)
+                                       level.tile_group, level.box_group)
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         if sprite:
             self.change_to_explode()
 
     def check_y_collisions(self, level):
         sprite_group = pg.sprite.Group(level.ground_step_pipe_group,
-                                       level.brick_group, level.box_group)
+                                       level.tile_group, level.box_group)
 
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         enemy = pg.sprite.spritecollideany(self, level.enemy_group)
