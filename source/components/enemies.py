@@ -97,5 +97,30 @@ class Enemy(pg.sprite.Sprite):
         self.frame_index = 3
         self.state = s.DEATH_JUMP
 
+    def jumped_on(self):
+        pass
+    
+    def revealing(self):
+        pass
+    
     def animation(self):
         self.image = self.frames[self.frame_index]
+        
+    def update_position(self):
+        self.rect.x += self.x_vel
+        self.check_x_collisions()
+
+        if self.in_range and self.isVertical:
+            if self.rect.y < self.range_start:
+                self.rect.y = self.range_start
+                self.y_vel = ENEMY_SPEED
+            elif self.rect.bottom > self.range_end:
+                self.rect.bottom = self.range_end
+                self.y_vel = -1 * ENEMY_SPEED
+
+        self.rect.y += self.y_vel
+        if (self.state != s.DEATH_JUMP and 
+            self.state != s.FLY):
+            self.check_y_collisions()
+        
+
