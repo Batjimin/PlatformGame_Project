@@ -6,11 +6,11 @@ from . state import Menu, Loading, System
 def main():
     game = tools.Control()
     state_dict = {
-                  Set.MAIN_MENU: Menu.Menu(),
-                  Set.LOAD_SCREEN: Loading.LoadScreen(),
+                  Set.MENU: Menu.Menu(),
+                  Set.LOADING: Loading.LoadScreen(),
                   Set.LEVEL: System.Level(),
                   Set.GAME_OVER: Loading.GameOver(),
                   Set.TIME_OUT: Loading.TimeOut()
                 }
-    game.setup_states(state_dict, Set.Menu)
+    game.setup_states(state_dict, Set.MENU)
     game.main()

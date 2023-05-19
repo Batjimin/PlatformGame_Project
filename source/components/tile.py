@@ -38,7 +38,7 @@ def createTile(tile_group, item, system):
         else:
             tile_group.add(Tile(x,y,type,color))
 
-class Tile(EtSet.Stuff):
+class Tile(Etc.Stuff):
     def __init__(self,x,y,type,color =Set.BROWN, group=None, name=Set.MAP_TILE):
         brown_rect = [(),()] #시트 만들어지면 좌표입력
         green_rect = [(),()]
@@ -46,7 +46,7 @@ class Tile(EtSet.Stuff):
             frame_rect = brown_rect
         else:
             frame_rect = green_rect
-        EtSet.Stuff.__init__(self,x,y,setup,GFX['tile.set'], frame_rect,Set.TILE_SIZE_MULTIPLIER)
+        Etc.Stuff.__init__(self,x,y,setup.GFX['tile.set'], frame_rect,Set.TILE_SIZE_MULTIPLIER)
 
         self.rest_height = y
         self.state = Set.STAYED

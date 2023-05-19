@@ -192,7 +192,6 @@ class Slider(Stuff):
             self.x_vel = vel
 
     def create_image(self, x, y, num):
-        '''original slider image is short, we need to multiple it '''
         if num == 1:
             return
         img = self.image
