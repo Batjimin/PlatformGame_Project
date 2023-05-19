@@ -13,7 +13,7 @@ class Collider(pg.sprite.Sprite):
         self.rect.y = y
         self.name = name
         if Set.DEBUG:
-            self.image.fill(Set.RED)
+            self.image.fill(Set.RED) #Set.DEBUG가 True인 경우에만 self.image를 Set.RED 색상으로 채움.
 
 
 class Checkpoint(pg.sprite.Sprite):

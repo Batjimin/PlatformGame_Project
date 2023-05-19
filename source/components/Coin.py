@@ -22,12 +22,15 @@ class Coin(pg.sprite.Sprite):
         self.score_group = score_group
 
     def load_frames(self):
-        sheet = setup.GFX[s.OBJECTS_SHEET]
-        frame_rect_list = [(52, 113, 8, 14), (4, 113, 8, 14),
-                           (20, 113, 8, 14), (36, 113, 8, 14)]
-        for frame_rect in frame_rect_list:
-            self.frames.append(tools.get_image(
-                sheet, *frame_rect, s.BLACK, s.TILE_SIZE_MULTIPLIER))
+        sheet = setup.GFX[s.OBJECTS_SHEET] #이미지 시트 가져오기
+        frame_rect_list = [(52, 113, 8, 14), (4, 113, 8, 14), #애니메이션의 각 프레임의 영역을 정의
+                           (20, 113, 8, 14), (36, 113, 8, 14)] #프레임의 좌표와 크기 정보를 담고 있는 리스트. 각각의 튜플은 (x, y, width, height) 형식
+        for frame_rect in frame_rect_list: 
+            self.frames.append(tools.get_image( #이미지 시트에서 frame_rect에 해당하는 영역을 잘라내어 프레임 이미지를 가져옴
+                sheet, *frame_rect, s.BLACK, s.TILE_SIZE_MULTIPLIER)) 
+            #s.BLACK은 투명한 부분의 색상을 나타내는 RGB 값
+            #s.TILE_SIZE_MULTIPLIER는 이미지의 크기를 조정하는 비율
+
     
     def update(self, game_info):
         self.current_time = game_info[s.CURRENT_TIME]

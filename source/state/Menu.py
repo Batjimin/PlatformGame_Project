@@ -8,20 +8,19 @@ from .. components import Info
 class Menu(tools.State):
     def __init__(self):
         tools.State.__init__(self)
-        persist = {Set.COIN_TOTAL: 0,
+        persist = {Set.TOTAL_COIN: 0,
                    Set.SCORE: 0,
-                   Set.LIVES: 3,
+                   Set.ATTENDENCE: 3,
                    Set.TOP_SCORE: 0,
                    Set.CURRENT_TIME: 0.0,
-                   Set.LEVEL_NUM: 1,
-                   Set.PLAYER_NAME: Set.PLAYER_MARIO}
+                   Set.YOUR_NAME: Set.PLAYER}
         self.startup(0.0, persist)
         
     def startup(self, persist):
         self.next = Set.LOAD_SCREEN
         self.persist = persist
         self.game_info = persist
-        self.overhead_info = Info.Info(self.game_info, Set.MAIN_MENU)
+        self.overhead_info = Info.Info(self.game_info, Set.MENU)
 
         self.setup_background()
         self.setup_player()
