@@ -1,5 +1,3 @@
-#로딩 창 구성
-
 from .. import tools
 from .. import Setting as Set
 from ..components import Info

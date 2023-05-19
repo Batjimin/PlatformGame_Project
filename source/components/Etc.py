@@ -111,7 +111,7 @@ class Score():
                            (20, 168, 4, 8), (0, 0, 0, 0)]
         digit_string = '0123456789'
         for digit, image_rect in zip(digit_string, digit_rect_list):
-            self.image_dict[digit] = tools.get_image(setup.GFX[Set.ITEM_SHEET],
+            self.image_dict[digit] = tools.get_image(setup.GFX[Set.ITEM_IMAGE],
                                                      *image_rect, Set.BLACK, Set.TILE_SIZE_MULTIPLIER)
 
     def create_score_digit(self):

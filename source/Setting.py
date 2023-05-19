@@ -39,7 +39,7 @@ LEVEL = 'level'
 TOTAL_COIN = 'total coin'
 SCORE = 'score'
 TOP_SCORE = 'top score'
-ATTENDENCE = 'attendence' # 생명 = 출석
+ATTENDENCE = 'attendence' #생명 = 출석
 CURRENT_TIME = 'current time'
 YOUR_NAME = 'player name'
 PLAYER = 'player'
@@ -50,14 +50,19 @@ TILE_NUM = 'tile_num'
 TYPE_NONE = 0
 TYPE_COIN = 1
 TYPE_PAPER = 2          # 족보(임시)
-MAP_QR     = 'QR_brick'
+MAP_BOX   = 'box'
 TYPE_COFFEE         = 3          # 커피     (성장 버프)
 TYPE_HOT6           = 4          # 핫식스   (파이어 볼)
 TYPE_REDBULL        = 5          # 레드불   (fly)
-TYPE_GPT            = 6          # gpt형태  (블록 생성)
+TYPE_LIFE_COFFEE    = 6          # 커피     (생명(출석)추가 커피 )
+TYPE_GPT            = 7          # gpt형태  (블록 생성)
 
 MAP_ENEMY   = 'enemy'
 ENEMY_RANGE = 'range'
+
+HORIZONTAL = 0
+VERTICAL = 1
+VELOCITY = 'velocity'
 
 ENEMY_TYPE_BOO            = 0   # 부 형태의 몬스터
 ENEMY_TYPE_ASSIGNMENT     = 1   # 과제 형태의 몬스터
@@ -127,4 +132,3 @@ TIME_LIMIT = 300
 #이미지 시트
 ITEM_IMAGE = 'item_images'
 ENEMY_IMAGE = 'enemy_images'
-

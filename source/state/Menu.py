@@ -90,3 +90,4 @@ class Menu(tools.State):
             rect.x, rect.bottom = 110, Set.GROUND_HEIGHT
             self.player_list.append((image, rect))
         self.player_index = 0
+        
