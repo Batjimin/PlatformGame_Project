@@ -4,7 +4,7 @@ from .. import Setting as Set
 from . import Etc
 
 
-class Powerup(stuff.Stuff):
+class Powerup(Etc.Stuff):
     def __init__(self, x, y, sheet, image_rect_list, scale):
         Etc.Stuff.__init__(self, x, y, sheet, image_rect_list, scale)
         self.rect.centerx = x
@@ -71,7 +71,7 @@ class Coffee(Powerup):
             self.rect.y += self.y_vel
             if self.rect.bottom <= self.box_height:
                 self.rect.bottom = self.box_height
-                self.y_vel = 
+                self.y_vel = 0
                 self.state = Set.SLIDE
         elif self.state == Set.SLIDE:
             self.x_vel = self.speed if self.direction == Set.RIGHT else -1 * self.speed
