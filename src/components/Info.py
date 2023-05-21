@@ -52,7 +52,30 @@ class Info(): #게임 정보와 현재 게임 상태에 따라 라벨과 이미�
         for label in label_list:
             for letter in label:
                 surface.blit(letter.image, letter.rect)
+                
+    def create_system_labels(self):
+        self.time = Set.TIME_LIMIT
+        self.current_time = 0
 
+        self.clock_time_label = []
+        self.create_label(self.clock_time_label, str(self.time), 645, 55)
+        self.state_labels = [*self.info_labels, self.clock_time_label]
+    
+    def create_label(self, label_list, string, x, y):
+        for letter in string:
+            label_list.append(Character(self.image_dict[letter]))
+        self.set_label_rects(label_list, x, y)
+        
+    def update_text(self, text, score, reset=False):
+        if reset and len(text) > len(str(score)):
+            text.remove(text[0])
+        index = len(text) - 1
+        for digit in reversed(str(score)):
+            rect = text[index].rect
+            text[index] = Character(self.image_dict[digit])
+            text[index].rect = rect
+            index -= 1    
+        
     def create_font_image_dict(self):
 
     def create_info_labels(self):
@@ -63,16 +86,13 @@ class Info(): #게임 정보와 현재 게임 상태에 따라 라벨과 이미�
 
     def create_load_screen_labels(self):
 
-    def create_system_labels(self):
-
+     
     def create_game_over_labels(self):
 
     def create_time_out_labels(self):
-
-    def create_label(self, label_list, string, x, y):
 
     def set_label_rects(self, label_list, x, y):
 
     def handle_system_state(self, system_info):
 
-    def update_text(self, text, score, reset=False):
+    
