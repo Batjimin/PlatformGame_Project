@@ -135,4 +135,10 @@ ENEMY_IMAGE = 'enemy_images'
 
 DEBUG = False
 DEBUG_START_X = 110
-DEBUG_START_y = 538
+DEBUG_START_Y = 538
+
+#프레임
+PLAYER_FRAMES = 'image_frames'
+RIGHT_SMALL_NORMAL = 'right_small_normal'
+RIGHT_BIG_NORMAL = 'right_big_normal'
+RIGHT_BIG_FIRE = 'right_big_fire'
