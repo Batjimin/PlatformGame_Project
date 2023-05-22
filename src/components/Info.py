@@ -30,10 +30,10 @@ class Info(): #게임 정보와 현재 게임 상태에 따라 라벨과 이미�
 
     def create_state_labels(self): #프로그램 상태 별 라벨 생성. 라벨은 state속성을 바탕으로 생성된다.
         if self.state == Set.MENU:
-            self.create_main_menu_labels()
+            self.create_menu_labels()
         elif self.state == Set.LOADING:
             self.create_player_image()
-            self.create_load_screen_labels()
+            self.create_loading_labels()
         elif self.state == Set.LEVEL:
             self.create_system_labels()
         elif self.state == Set.GAME_OVER:
@@ -75,23 +75,48 @@ class Info(): #게임 정보와 현재 게임 상태에 따라 라벨과 이미�
             text[index] = Character(self.image_dict[digit])
             text[index].rect = rect
             index -= 1    
+            
+    def set_label_rects(self, label_list, x, y):
+        for i, letter in enumerate(label_list):
+            letter.rect.x = x + ((letter.rect.width + 3) * i)
+            letter.rect.y = y
+            if letter.image == self.image_dict['-']:
+                letter.rect.y += 7
+                letter.rect.x += 2
+                
+    def create_loading_labels(self):
+        world_label = []
+        self.stage_label2 = []
+
+        self.create_label(world_label, 'Start ! ', 280, 200)
+        self.state_labels = [world_label, self.stage_label2,
+                *self.info_labels, self.life_total_label]
         
+    def create_menu_labels(self):
+        player_game = []
+        top = []
+        top_score = []
+
+        self.create_label(player_game, Set.PLAYER, 272, 360)
+        self.create_label(top, 'TOP - ', 290, 465)
+        self.create_label(top_score, '000000', 400, 465)
+        self.state_labels = [player_game, top, top_score,
+                            *self.info_labels]
+    
     def create_font_image_dict(self):
 
     def create_info_labels(self):
 
     def create_player_image(self):
 
-    def create_main_menu_labels(self):
-
-    def create_load_screen_labels(self):
-
+    
+    
      
     def create_game_over_labels(self):
 
     def create_time_out_labels(self):
 
-    def set_label_rects(self, label_list, x, y):
+    
 
     def handle_system_state(self, system_info):
 
