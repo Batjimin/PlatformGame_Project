@@ -8,7 +8,7 @@ def main():
     state_dict = {
                   Set.MENU: Menu.Menu(),
                   Set.LOADING: Loading.LoadScreen(),
-                  Set.LEVEL: System.Level(),
+                  Set.SYSTEM: System.System(),
                   Set.GAME_OVER: Loading.GameOver(),
                   Set.TIME_OUT: Loading.TimeOut()
                 }

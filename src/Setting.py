@@ -33,7 +33,7 @@ MENU = 'main menu'
 LOADING = 'load screen'
 TIME_OUT = 'time out'
 GAME_OVER = 'game over'
-LEVEL = 'level'
+SYSTEM = 'system'
 
 #게임 요소
 TOTAL_COIN = 'total coin'
