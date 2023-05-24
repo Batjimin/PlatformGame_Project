@@ -72,4 +72,4 @@ class QR_brick(pg.sprite.sprite):
                            (416, 0, 16, 16), (400, 0, 16, 16), (432, 0, 16, 16)]
         for frame_rect in frame_rect_list:
             self.frames.append(tools.get_image(
-                sheet, *frame_rect, s.BLACK, s.BRICK_SIZE_MULTIPLIER))
+                sheet, *frame_rect, s.BLACK, s.TILE_SIZE_MULTIPLIER))
