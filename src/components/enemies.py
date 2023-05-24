@@ -173,3 +173,35 @@ class Enemy(pg.sprite.Sprite):
                 self.y_vel = 0
                 self.state = s.WALK
         level.check_is_falling(self)
+        
+        
+
+class Boo(Enemy):
+    def __init__(self, x, y, direction, color, in_range,
+                 range_start, range_end, name=s.BOO):
+        Enemy.__init__(self)
+        frame_rect_list = self.get_frame_rect(color)
+        self.setup_enemy(x, y, direction, name, setup.GFX[s.ENEMY_IMAGE],
+                         frame_rect_list, in_range, range_start, range_end)
+        # dead jump image
+        self.frames.append(pg.transform.flip(self.frames[2], False, True))
+        # right walk images
+        self.frames.append(pg.transform.flip(self.frames[0], True, False))
+        self.frames.append(pg.transform.flip(self.frames[1], True, False))
+
+    def get_frame_rect(self, color):
+        if color == s.COLOR_TYPE_GREEN:
+            frame_rect_list = [(0, 34, 16, 16), (30, 34, 16, 16),
+                               (61, 30, 16, 16)]
+        else:
+            frame_rect_list = [(0, 4, 16, 16), (30, 4, 16, 16),
+                               (61, 0, 16, 16)]
+        return frame_rect_list
+
+    def jumped_on(self):
+        self.x_vel = 0
+        self.frame_index = 2
+        if self.death_timer == 0:
+            self.death_timer = self.current_time
+        elif (self.current_time - self.death_timer) > 500:
+            self.kill()

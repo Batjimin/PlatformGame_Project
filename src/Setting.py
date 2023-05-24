@@ -101,6 +101,10 @@ SMALL_TURNAROUND = .35
 JUMP_GRAVITY = .31
 GRAVITY = 1.00
 
+# 적 목록
+BOO = 'boo'
+BOSS = 'boss'
+
 #부. 상태명 변경할 수도 있음.
 LEFT = 'left'
 RIGHT = 'right'
