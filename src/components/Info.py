@@ -109,15 +109,10 @@ class Info(): #게임 정보와 현재 게임 상태에 따라 라벨과 이미�
 
     def create_player_image(self):
 
-    
-    
      
     def create_game_over_labels(self):
 
     def create_time_out_labels(self):
 
-    
-
     def handle_system_state(self, system_info):
 
-    
