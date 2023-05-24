@@ -44,6 +44,7 @@ CURRENT_TIME = 'current time'
 YOUR_NAME = 'player name'
 PLAYER = 'player'
 
+MAP_SLIDER = 'slider'
 MAP_BUS = 'BUS'         # 교내 셔틀 (파이프와 같은 역할)
 MAP_TILE = 'tile'     # QR코드 타일
 TILE_NUM = 'tile_num'

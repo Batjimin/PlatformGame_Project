@@ -103,10 +103,16 @@ class Enemy(pg.sprite.Sprite):
     def revealing(self):
         pass
     
+    def sliding(self):         # 보스 패턴 슬라이딩
+        if self.direction == s.RIGHT:
+            self.x_vel = 10
+        else:
+            self.x_vel = -10
+    
     def animation(self):
         self.image = self.frames[self.frame_index]
         
-    def update_position(self):
+    def update_position(self):  #위치 업데이트
         self.rect.x += self.x_vel
         self.check_x_collisions()
 
@@ -123,4 +129,47 @@ class Enemy(pg.sprite.Sprite):
             self.state != s.FLY):
             self.check_y_collisions()
         
+    def check_x_collisions(self, level):
+        if self.in_range and not self.isVertical:
+            if self.rect.x < self.range_start:
+                self.rect.x = self.range_start
+                self.change_direction(s.RIGHT)
+            elif self.rect.right > self.range_end:
+                self.rect.right = self.range_end
 
+                self.change_direction(s.LEFT)
+        else:
+            collider = pg.sprite.spritecollideany(
+                self, level.ground_step_pipe_group)
+            if collider:
+                if self.direction == s.RIGHT:
+                    self.rect.right = collider.rect.left
+                    self.change_direction(s.LEFT)
+                elif self.direction == s.LEFT:
+                    self.rect.left = collider.rect.right
+                    self.change_direction(s.RIGHT)
+
+    def change_direction(self, direction):
+        self.direction = direction
+        if self.direction == s.RIGHT:
+            self.x_vel = ENEMY_SPEED
+            if self.state == s.WALK or self.state == s.FLY:
+                self.frame_index = 4
+        else:
+            self.x_vel = ENEMY_SPEED * -1
+            if self.state == s.WALK or self.state == s.FLY:
+                self.frame_index = 0
+
+    def check_y_collisions(self, level):
+        if self.rect.bottom >= s.GROUND_HEIGHT:
+            sprite_group = level.ground_step_pipe_group
+        else:
+            sprite_group = pg.sprite.Group(level.ground_step_pipe_group,
+                                           level.brick_group, level.box_group)
+        sprite = pg.sprite.spritecollideany(self, sprite_group)
+        if sprite and sprite.name != s.MAP_SLIDER:
+            if self.rect.top <= sprite.rect.top:
+                self.rect.bottom = sprite.rect.y
+                self.y_vel = 0
+                self.state = s.WALK
+        level.check_is_falling(self)
