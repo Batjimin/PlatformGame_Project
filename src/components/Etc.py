@@ -61,7 +61,7 @@ class PoleTop(Stuff):
 
 class Flag(Stuff):
     def __init__(self, x, y):
-        Stuff.__init__(self, x, y, setup.GFX[Set.ITEM_SHEET],
+        Stuff.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
                        [(128, 32, 16, 16)], Set.SIZE_MULTIPLIER)
         self.state = Set.TOP_OF_POLE
         self.y_vel = 5
@@ -75,7 +75,7 @@ class Flag(Stuff):
 
 class CastleFlag(Stuff):
     def __init__(self, x, y):
-        Stuff.__init__(self, x, y, setup.GFX[Set.ITEM_SHEET],
+        Stuff.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
                        [(129, 2, 14, 14)], Set.SIZE_MULTIPLIER)
         self.y_vel = -2
         self.target_height = y
@@ -179,7 +179,7 @@ class Pipe(Stuff):
 
 class Slider(Stuff):
     def __init__(self, x, y, num, direction, range_start, range_end, vel, name=Set.MAP_SLIDER):
-        Stuff.__init__(self, x, y, setup.GFX[Set.ITEM_SHEET],
+        Stuff.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
                        [(64, 128, 15, 8)], 2.8)
         self.name = name
         self.create_image(x, y, num)
