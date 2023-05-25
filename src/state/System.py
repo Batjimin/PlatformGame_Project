@@ -133,6 +133,10 @@ class System(tools.State):
             self.player.rect.bottom = Set.DEBUG_START_y
         self.viewport.x = self.player.rect.x - 110
         
+        
+        
+        
+        
     def update_game_info(self):
         if self.player.dead:
             self.persist[Set.ATTENDENCE] -= 1
@@ -165,7 +169,73 @@ class System(tools.State):
         y = sprite.rect.y - 10
         self.moving_score_list.append(Etc.Score(x, y, score))
         
-
+    def update_flag_score(self):
+        base_y = Set.GROUND_HEIGHT - 80
+        
+        y_score_list = [(base_y, 100), (base_y-120, 400),
+                    (base_y-200, 800), (base_y-320, 2000),
+                    (0, 5000)]
+        for y, score in y_score_list:
+            if self.player.rect.y > y:
+                self.update_score(score, self.flag)
+                break
+            
+            
+            
+    
+    
+    def setup_checkpoints(self):
+        self.checkpoint_group = pg.sprite.Group()
+        for data in self.map_data[Set.MAP_CHECKPOINT]:
+            if Set.ENEMY_GROUPID in data:
+                enemy_groupid = data[Set.ENEMY_GROUPID]
+            else:
+                enemy_groupid = 0
+            if Set.MAP_INDEX in data:
+                map_index = data[Set.MAP_INDEX]
+            else:
+                map_index = 0
+            self.checkpoint_group.add(Etc.Checkpoint(data['x'], data['y'], data['width'], 
+                data['height'], data['type'], enemy_groupid, map_index))
+            
+            
+    def check_checkpoints(self):
+        checkpoint = pg.sprite.spritecollideany(self.player, self.checkpoint_group)
+        
+        if checkpoint:
+            if checkpoint.type == Set.CHECKPOINT_TYPE_ENEMY:
+                group = self.enemy_group_list[checkpoint.enemy_groupid]
+                self.enemy_group.add(group)
+            elif checkpoint.type == Set.CHECKPOINT_TYPE_FLAG:
+                self.player.state = Set.FLAGPOLE
+                if self.player.rect.bottom < self.flag.rect.y:
+                    self.player.rect.bottom = self.flag.rect.y
+                self.flag.state = Set.SLIDE_DOWN
+                self.update_flag_score()
+            elif checkpoint.type == Set.CHECKPOINT_TYPE_CASTLE:
+                self.player.state = set.IN_CASTLE
+                self.player.x_vel = 0
+                self.castle_timer = self.current_time
+                self.flagpole_group.add(Etc.CastleFlag(8745, 322))
+            elif (checkpoint.type == Set.CHECKPOINT_TYPE_COFFEE and
+                    self.player.y_vel < 0):
+                coffee_QR = QR_brick.QR_brick(checkpoint.rect.x, checkpoint.rect.bottom - 40,
+                                Set.TYPE_LIFE_COFFEE, self.powerup_group)
+                coffee_QR.start_bump(self.moving_score_list)
+                self.QR_group.add(coffee_QR)
+                self.player.y_vel = 7
+                self.player.rect.y = coffee_QR.rect.bottom
+                self.player.state = Set.FALL
+            elif checkpoint.type == Set.CHECKPOINT_TYPE_ELEVATOR:
+                self.player.state = Set.WALK_AUTO
+            elif checkpoint.type == Set.CHECKPOINT_TYPE_ELEVATOR_UP:
+                self.change_map(checkpoint.map_index, checkpoint.type)
+            elif checkpoint.type == Set.CHECKPOINT_TYPE_MAP:
+                self.change_map(checkpoint.map_index, checkpoint.type)
+            elif checkpoint.type == Set.CHECKPOINT_TYPE_BOSS:
+                self.player.state = Set.WALK_AUTO
+            checkpoint.kill()
+    
 
         
     

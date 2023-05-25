@@ -45,6 +45,7 @@ YOUR_NAME = 'player name'
 PLAYER = 'player'
 SYSTEM_NUM = 'system num'
 
+MAP_INDEX = 'map_index'
 MAP_SLIDER = 'slider'
 MAP_ELEVATOR = 'elevator'     # 엘리베이터 (파이프와 같은 역할)
 MAP_TILE = 'tile'             # QR코드 타일
@@ -56,7 +57,7 @@ TILE_NUM = 'tile_num'
 TYPE_NONE = 0
 TYPE_COIN = 1
 TYPE_PAPER = 2          # 족보(임시)
-MAP_BOX   = 'box'
+MAP_QR     = 'QR'
 TYPE_COFFEE         = 3          # 커피     (성장 버프)
 TYPE_HOT6           = 4          # 핫식스   (파이어 볼)
 TYPE_REDBULL        = 5          # 레드불   (fly)
@@ -65,6 +66,7 @@ TYPE_GPT            = 7          # gpt형태  (블록 생성)
 
 MAP_ENEMY   = 'enemy'
 ENEMY_RANGE = 'range'
+ENEMY_GROUPID = 'enemy_groupid'
 
 HORIZONTAL = 0
 VERTICAL = 1
@@ -152,3 +154,14 @@ PLAYER_FRAMES = 'image_frames'
 RIGHT_SMALL_NORMAL = 'right_small_normal'
 RIGHT_BIG_NORMAL = 'right_big_normal'
 RIGHT_BIG_FIRE = 'right_big_fire'
+
+# 체크 요소
+MAP_CHECKPOINT = 'checkpoint'
+CHECKPOINT_TYPE_ENEMY = 0
+CHECKPOINT_TYPE_FLAG = 1
+CHECKPOINT_TYPE_CASTLE = 2
+CHECKPOINT_TYPE_COFFEE = 3
+CHECKPOINT_TYPE_ELEVATOR = 4       
+CHECKPOINT_TYPE_ELEVATOR_UP = 5    
+CHECKPOINT_TYPE_MAP = 6         
+CHECKPOINT_TYPE_BOSS = 7        
