@@ -144,3 +144,13 @@ class System(tools.State):
         x = sprite.rect.x
         y = sprite.rect.y - 10
         self.moving_score_list.append(Etc.Score(x, y, score))
+        
+    def setup_elevator(self):
+        self.pipe_group = pg.sprite.Group()
+        if Set.MAP_ELEVATOR in self.map_data:
+            for data in self.map_data[Set.MAP_ELEVATOR]:
+                self.pipe_group.add(Etc.Elevator(data['x'], data['y'],
+                    data['width'], data['height'], data['type']))
+        
+        
+    

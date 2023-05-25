@@ -46,8 +46,8 @@ PLAYER = 'player'
 SYSTEM_NUM = 'system num'
 
 MAP_SLIDER = 'slider'
-MAP_BUS = 'BUS'         # 교내 셔틀 (파이프와 같은 역할)
-MAP_TILE = 'tile'     # QR코드 타일
+MAP_ELEVATOR = 'elevator'     # 엘리베이터 (파이프와 같은 역할)
+MAP_TILE = 'tile'             # QR코드 타일
 TILE_NUM = 'tile_num'
 TYPE_NONE = 0
 TYPE_COIN = 1

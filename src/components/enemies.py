@@ -172,7 +172,7 @@ class Enemy(pg.sprite.Sprite):
                 self.rect.bottom = sprite.rect.y
                 self.y_vel = 0
                 self.state = s.WALK
-        level.check_is_falling(self)
+        System.check_is_falling(self)
         
         
 
