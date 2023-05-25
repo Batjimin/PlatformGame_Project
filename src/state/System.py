@@ -66,6 +66,26 @@ class System(tools.State):
         self.powerup_group = pg.sprite.Group()
         self.tile_group = pg.sprite.Group()
         self.tilepiece_group = pg.sprite.Group()
+        
+    def setup_elevator(self):
+        self.pipe_group = pg.sprite.Group()
+        if Set.MAP_ELEVATOR in self.map_data:
+            for data in self.map_data[Set.MAP_ELEVATOR]:
+                self.pipe_group.add(Etc.Elevator(data['x'], data['y'],
+                    data['width'], data['height'], data['type']))
+                
+    def setup_flagpole(self):
+        self.flagpole_group = pg.sprite.Group()
+        if Set.MAP_FLAGPOLE in self.map_data:
+            for data in self.map_data[Set.MAP_FLAGPOLE]:
+                if data['type'] == Set.FLAGPOLE_TYPE_FLAG:
+                    sprite = Etc.Flag(data['x'], data['y'])
+                    self.flag = sprite
+                elif data['type'] == Set.FLAGPOLE_TYPE_POLE:
+                    sprite = Etc.Pole(data['x'], data['y'])
+                else:
+                    sprite = Etc.PoleTop(data['x'], data['y'])
+                self.flagpole_group.add(sprite)
 
     def draw(self, surface): #이게...맞나?
         self.level.blit(self.background, self.viewport, self.viewport)
@@ -145,12 +165,7 @@ class System(tools.State):
         y = sprite.rect.y - 10
         self.moving_score_list.append(Etc.Score(x, y, score))
         
-    def setup_elevator(self):
-        self.pipe_group = pg.sprite.Group()
-        if Set.MAP_ELEVATOR in self.map_data:
-            for data in self.map_data[Set.MAP_ELEVATOR]:
-                self.pipe_group.add(Etc.Elevator(data['x'], data['y'],
-                    data['width'], data['height'], data['type']))
-        
+
+
         
     
