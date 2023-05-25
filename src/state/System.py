@@ -18,7 +18,7 @@ class System(tools.State):
         self.death_timer = 0    
         
         self.moving_score_list = []
-        self.overhead_info = Info.Info(self.game_info, Set.LEVEL)
+        self.overhead_info = Info.Info(self.game_info, Set.SYSTEM)
         self.load_map()
         self.setup_background()
         self.setup_maps()
@@ -35,7 +35,7 @@ class System(tools.State):
         self.setup_sprite_groups()
         
     def load_map(self):
-        map_file = 'level_' + str(self.game_info[Set.LEVEL_NUM]) + '.json'
+        map_file = 'level_' + str(self.game_info[Set.SYSTEM_NUM]) + '.json'
         file_path = os.path.join('source', 'data', 'maps', map_file)
         f = open(file_path)
         self.map_data = json.load(f)
@@ -112,3 +112,35 @@ class System(tools.State):
             self.player.rect.x = self.viewport.x + Set.DEBUG_START_X
             self.player.rect.bottom = Set.DEBUG_START_y
         self.viewport.x = self.player.rect.x - 110
+        
+    def update_game_info(self):
+        if self.player.dead:
+            self.persist[Set.ATTENDENCE] -= 1
+
+        if self.persist[Set.ATTENDENCE] == 0:
+            self.next = Set.GAME_OVER
+        elif self.overhead_info.time == 0:
+            self.next = Set.TIME_OUT
+        elif self.player.dead:
+            self.next = Set.LOADING
+        else:
+            self.game_info[Set.SYSTEM_NUM] += 1
+            self.next = Set.LOADING
+
+    def update_viewport(self):
+        third = self.viewport.x + self.viewport.w//3
+        player_center = self.player.rect.centerx
+        
+        if (self.player.x_vel > 0 and 
+            player_center >= third and
+            self.viewport.right < self.end_x):
+            self.viewport.x += round(self.player.x_vel)
+        elif self.player.x_vel < 0 and self.viewport.x > self.start_x:
+            self.viewport.x += round(self.player.x_vel)
+        
+    def update_score(self, score, sprite, coin_num=0):
+        self.game_info[Set.SCORE] += score
+        self.game_info[Set.TOTAL_COIN] += coin_num
+        x = sprite.rect.x
+        y = sprite.rect.y - 10
+        self.moving_score_list.append(Etc.Score(x, y, score))
