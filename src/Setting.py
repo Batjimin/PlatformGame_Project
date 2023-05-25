@@ -43,6 +43,7 @@ ATTENDENCE = 'attendence' #생명 = 출석
 CURRENT_TIME = 'current time'
 YOUR_NAME = 'player name'
 PLAYER = 'player'
+SYSTEM_NUM = 'system num'
 
 MAP_SLIDER = 'slider'
 MAP_BUS = 'BUS'         # 교내 셔틀 (파이프와 같은 역할)

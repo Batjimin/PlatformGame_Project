@@ -88,7 +88,8 @@ class Info(): #게임 정보와 현재 게임 상태에 따라 라벨과 이미�
         world_label = []
         self.stage_label2 = []
 
-        self.create_label(world_label, 'Start ! ', 280, 200)
+        self.create_label(world_label, 'Start', 280, 200)
+        self.create_label(self.stage_label2, '!', 430, 200)
         self.state_labels = [world_label, self.stage_label2,
                 *self.info_labels, self.life_total_label]
         
@@ -102,6 +103,21 @@ class Info(): #게임 정보와 현재 게임 상태에 따라 라벨과 이미�
         self.create_label(top_score, '000000', 400, 465)
         self.state_labels = [player_game, top, top_score,
                             *self.info_labels]
+        
+    def handle_system_state(self, system_info):
+        self.score = system_info[Set.SCORE]
+        self.update_text(self.score_text, self.score)
+        self.update_text(self.coin_count_text, system_info[Set.TOTAL_COIN])
+        self.update_text(self.stage_label, system_info[Set.SYSTEM_NUM])
+        self.flashing_coin.update(system_info[Set.CURRENT_TIME])
+        if self.state == Set.LOADING:
+            self.update_text(self.stage_label2, system_info[Set.SYSTEM_NUM])
+        if self.state == Set.SYSTEM:
+            if (system_info[Set.CURRENT_TIME] - self.current_time) > 1000:
+                self.current_time = system_info[Set.CURRENT_TIME]
+                self.time -= 1
+                self.update_text(self.clock_time_label, self.time, True)
+
     
     def create_font_image_dict(self):
 
@@ -114,5 +130,4 @@ class Info(): #게임 정보와 현재 게임 상태에 따라 라벨과 이미�
 
     def create_time_out_labels(self):
 
-    def handle_system_state(self, system_info):
-
+    

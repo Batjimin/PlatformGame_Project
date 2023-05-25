@@ -91,3 +91,24 @@ class System(tools.State):
         surface.blit(self.level, (0,0), self.viewport)
         self.overhead_info.draw(surface)
         
+    def setup_enemies(self):
+        self.enemy_group_list = []
+        index = 0
+        for data in self.map_data[Set.MAP_ENEMY]:
+            group = pg.sprite.Group()
+            for item in data[str(index)]:
+                group.add(enemies.create_enemy(item, self))
+            self.enemy_group_list.append(group)
+            index += 1
+    
+    def setup_player(self):
+        if self.player is None:
+            self.player = player.Player(self.game_info[Set.PLAYER_NAME])
+        else:
+            self.player.restart()
+        self.player.rect.x = self.viewport.x + self.player_x
+        self.player.rect.bottom = self.player_y
+        if Set.DEBUG:
+            self.player.rect.x = self.viewport.x + Set.DEBUG_START_X
+            self.player.rect.bottom = Set.DEBUG_START_y
+        self.viewport.x = self.player.rect.x - 110
