@@ -149,11 +149,48 @@ class Info(): #게임 정보와 현재 게임 상태에 따라 라벨과 이미�
     
     
     def create_font_image_dict(self):
+        self.image_dict = {}
+        image_list = []
+        
+        image_rect_list = [# 0 - 9
+                           (3, 230, 7, 7), (12, 230, 7, 7), (19, 230, 7, 7),
+                           (27, 230, 7, 7), (35, 230, 7, 7), (43, 230, 7, 7),
+                           (51, 230, 7, 7), (59, 230, 7, 7), (67, 230, 7, 7),
+                           (75, 230, 7, 7), 
+                           # A - Z
+                           (83, 230, 7, 7), (91, 230, 7, 7), (99, 230, 7, 7),
+                           (107, 230, 7, 7), (115, 230, 7, 7), (123, 230, 7, 7),
+                           (3, 238, 7, 7), (11, 238, 7, 7), (20, 238, 7, 7),
+                           (27, 238, 7, 7), (35, 238, 7, 7), (44, 238, 7, 7),
+                           (51, 238, 7, 7), (59, 238, 7, 7), (67, 238, 7, 7),
+                           (75, 238, 7, 7), (83, 238, 7, 7), (91, 238, 7, 7),
+                           (99, 238, 7, 7), (108, 238, 7, 7), (115, 238, 7, 7),
+                           (123, 238, 7, 7), (3, 246, 7, 7), (11, 246, 7, 7),
+                           (20, 246, 7, 7), (27, 246, 7, 7), (48, 246, 7, 7),
+                           # -*
+                           (68, 249, 6, 2), (75, 247, 6, 6)]
+                           
+        character_string = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ -*'
+        
+        for character, image_rect in zip(character_string, image_rect_list):
+            self.image_dict[character] = tools.get_image(setup.GFX['text_images'], 
+                                            *image_rect, (92, 148, 252), 2.9)
 
     
-
     def create_player_image(self):
-
+        self.life_times_image = tools.get_image(setup.GFX['text_images'], 
+                                75, 247, 6, 6, (92, 148, 252), 2.9)
+        self.life_times_rect = self.life_times_image.get_rect(center=(378, 295))
+        self.life_total_label = []
+        self.create_label(self.life_total_label, str(self.total_attendence), 450, 285)
+        
+        if self.game_info[Set.YOUR_NAME] == Set.PLAYER:
+            rect = (178, 32, 12, 16)
+        else:
+            rect = (178, 128, 12, 16)
+        self.player_image = tools.get_image(setup.GFX['chara_images'], 
+                                *rect, (92, 148, 252), 2.9)
+        self.player_rect = self.player_image.get_rect(center=(320, 290))
      
     
 
