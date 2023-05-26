@@ -24,10 +24,10 @@ class System(tools.State):
         self.setup_maps()
         self.ground_group = self.setup_collide(Set.MAP_GROUND)
         self.step_group = self.setup_collide(Set.MAP_STEP)
-        self.setup_pipe()
+        self.setup_elevator()
         self.setup_slider()
         self.setup_static_coin()
-        self.setup_tile_and_box()
+        self.setup_tile_and_qr()
         self.setup_player()
         self.setup_enemies()
         self.setup_checkpoints()
@@ -68,10 +68,10 @@ class System(tools.State):
         self.tilepiece_group = pg.sprite.Group()
         
     def setup_elevator(self):
-        self.pipe_group = pg.sprite.Group()
+        self.elevator_group = pg.sprite.Group()
         if Set.MAP_ELEVATOR in self.map_data:
             for data in self.map_data[Set.MAP_ELEVATOR]:
-                self.pipe_group.add(Etc.Elevator(data['x'], data['y'],
+                self.elevator_group.add(Etc.Elevator(data['x'], data['y'],
                     data['width'], data['height'], data['type']))
                 
     def setup_flagpole(self):
@@ -101,7 +101,7 @@ class System(tools.State):
         self.player_group.draw(self.level)
         self.static_coin_group.draw(self.level)
         self.slider_group.draw(self.level)
-        self.pipe_group.draw(self.level)
+        self.elevator_group.draw(self.level)
         for score in self.moving_score_list:
             score.draw(self.level)
         if Set.DEBUG:
@@ -252,6 +252,123 @@ class System(tools.State):
                 self.player.state = Set.WALK_AUTO
             checkpoint.kill()
     
+    
+    
+    def setup_slider(self):
+        self.slider_group = pg.sprite.Group()
+        if Set.MAP_SLIDER in self.map_data:
+            for data in self.map_data[Set.MAP_SLIDER]:
+                if Set.VELOCITY in data:
+                    vel = data[Set.VELOCITY]
+                else:
+                    vel = 1
+                self.slider_group.add(Etc.Slider(data['x'], data['y'], data['num'],
+                    data['direction'], data['range_start'], data['range_end'], vel))
 
+    
+    def setup_sprite_groups(self):
+        self.dying_group = pg.sprite.Group()
+        self.enemy_group = pg.sprite.Group()
+        self.shell_group = pg.sprite.Group()
+        
+        self.ground_step_elevator_group = pg.sprite.Group(self.ground_group,
+                        self.elevator_group, self.step_group, self.slider_group)
         
     
+    
+    
+    
+    
+    
+    def check_player_x_collisions(self):
+        ground_step_elevator = pg.sprite.spritecollideany(self.player, self.ground_step_elevator_group)
+        tile = pg.sprite.spritecollideany(self.player, self.tile_group)
+        qr = pg.sprite.spritecollideany(self.player, self.qr_group)
+        enemy = pg.sprite.spritecollideany(self.player, self.enemy_group)
+        shell = pg.sprite.spritecollideany(self.player, self.shell_group)
+        powerup = pg.sprite.spritecollideany(self.player, self.powerup_group)
+        coin = pg.sprite.spritecollideany(self.player, self.static_coin_group)
+
+        if qr:
+            self.adjust_player_for_x_collisions(qr)
+        elif brick:
+            self.adjust_player_for_x_collisions(tile)
+        elif ground_step_elevator:
+            if (ground_step_elevator.name == Set.MAP_ELEVATOR and
+                ground_step_elevator.type == Set.ELEVATOR_TYPE_HORIZONTAL):
+                return
+            self.adjust_player_for_x_collisions(ground_step_elevator)
+        elif powerup:
+            if powerup.type == Set.TYPE_COFFEE:
+                self.update_score(1000, powerup, 0)
+                if not self.player.big:
+                    self.player.y_vel = -1
+                    self.player.state = Set.SMALL_TO_BIG
+            elif powerup.type == Set.TYPE_HOT6:
+                self.update_score(1000, powerup, 0)
+                if not self.player.big:
+                    self.player.state = Set.SMALL_TO_BIG
+                elif self.player.big and not self.player.fire:
+                    self.player.state = Set.BIG_TO_FIRE
+            elif powerup.type == Set.TYPE_STAR:
+                self.update_score(1000, powerup, 0)
+                self.player.invincible = True
+            elif powerup.type == Set.TYPE_LIFE_COFFEE:
+                self.update_score(500, powerup, 0)
+                self.game_info[Set.ATTENDENCE] += 1
+            #if powerup.type != Set.TYPE_FIREBALL:
+            #    powerup.kill()
+        elif enemy:
+            if self.player.invincible:
+                self.update_score(100, enemy, 0)
+                self.move_to_dying_group(self.enemy_group, enemy)
+                direction = Set.RIGHT if self.player.facing_right else Set.LEFT
+                enemy.start_death_jump(direction)
+            elif self.player.hurt_invincible:
+                pass
+            elif self.player.big:
+                self.player.y_vel = -1
+                self.player.state = Set.BIG_TO_SMALL
+            else:
+                self.player.start_death_jump(self.game_info)
+                self.death_timer = self.current_time
+        elif shell:
+            if shell.state == Set.SHELL_SLIDE:
+                if self.player.invincible:
+                    self.update_score(200, shell, 0)
+                    self.move_to_dying_group(self.shell_group, shell)
+                    direction = c.RIGHT if self.player.facing_right else c.LEFT
+                    shell.start_death_jump(direction)
+                elif self.player.hurt_invincible:
+                    pass
+                elif self.player.big:
+                    self.player.y_vel = -1
+                    self.player.state = Set.BIG_TO_SMALL
+                else:
+                    self.player.start_death_jump(self.game_info)
+                    self.death_timer = self.current_time
+            else:
+                self.update_score(400, shell, 0)
+                if self.player.rect.x < shell.rect.x:
+                    self.player.rect.left = shell.rect.x 
+                    shell.direction = Set.RIGHT
+                    shell.x_vel = 10
+                else:
+                    self.player.rect.x = shell.rect.left
+                    shell.direction = Set.LEFT
+                    shell.x_vel = -10
+                shell.rect.x += shell.x_vel * 4
+                shell.state = Set.SHELL_SLIDE
+        elif coin:
+            self.update_score(100, coin, 1)
+            coin.kill()
+
+    def adjust_player_for_x_collisions(self, collider):
+        if collider.name == Set.MAP_SLIDER:
+            return
+
+        if self.player.rect.x < collider.rect.x:
+            self.player.rect.right = collider.rect.left
+        else:
+            self.player.rect.left = collider.rect.right
+        self.player.x_vel = 0
