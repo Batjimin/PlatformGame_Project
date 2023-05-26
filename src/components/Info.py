@@ -118,16 +118,43 @@ class Info(): #게임 정보와 현재 게임 상태에 따라 라벨과 이미�
                 self.time -= 1
                 self.update_text(self.clock_time_label, self.time, True)
 
+    def create_game_over_labels(self):
+        game_label = []
+        over_label = []
+        self.create_label(game_label, 'GAME', 280, 300)
+        self.create_label(over_label, 'OVER', 400, 300)
+        self.state_labels = [game_label, over_label, *self.info_labels]
+
+    def create_info_labels(self):
+        self.score_text = []
+        self.coin_count_text = []
+        self.player_label = []
+        self.world_label = []
+        self.time_label = []
+        self.stage_label = []
+        self.create_label(self.score_text, '000000', 75, 55)
+        self.create_label(self.coin_count_text, '*00', 300, 55)
+        self.create_label(self.player_label, 'HUFS', 75, 30)
+        self.create_label(self.world_label, 'WORLD', 450, 30)
+        self.create_label(self.time_label, 'TIME', 625, 30)
+        self.create_label(self.stage_label, 'Main', 472, 55)
+
+        self.info_labels = [self.score_text, self.coin_count_text, self.player_label,
+                    self.world_label, self.time_label, self.stage_label]
+
+    def create_time_out_labels(self):
+        timeout_label = []
+        self.create_label(timeout_label, 'TIME OUT', 290, 310)
+        self.state_labels = [timeout_label, *self.info_labels]
+    
     
     def create_font_image_dict(self):
 
-    def create_info_labels(self):
+    
 
     def create_player_image(self):
 
      
-    def create_game_over_labels(self):
-
-    def create_time_out_labels(self):
+    
 
     
