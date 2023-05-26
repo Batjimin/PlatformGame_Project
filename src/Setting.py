@@ -73,8 +73,7 @@ VERTICAL = 1
 VELOCITY = 'velocity'
 
 ENEMY_TYPE_BOO            = 0   # 부 형태의 몬스터
-ENEMY_TYPE_ASSIGNMENT     = 1   # 과제 형태의 몬스터
-#ENEMY_TYPE_PROFESSOR = 2
+ENEMY_TYPE_BOSS           = 1   # 과제 형태의 몬스터
 
 #벽돌상태
 STAYED = 'stayed'

@@ -91,7 +91,7 @@ class System(tools.State):
         self.level.blit(self.background, self.viewport, self.viewport)
         self.powerup_group.draw(self.level)
         self.tile_group.draw(self.level)
-        self.box_group.draw(self.level)
+        self.qr_group.draw(self.level)
         self.coin_group.draw(self.level)
         self.dying_group.draw(self.level)
         self.tilepiece_group.draw(self.level)

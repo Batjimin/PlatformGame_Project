@@ -29,9 +29,9 @@ class Powerup(Etc.Stuff):
         elif self.rect.y > (level.viewport.bottom):
             self.kill()
 
-    def check_x_collisions(self, level):
+    def check_x_collisions(self, System):
         sprite_group = pg.sprite.Group(System.ground_step_pipe_group,
-                                       level.tile_group, level.box_group)
+                                       System.tile_group, System.qr_group)
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         if sprite:
             if self.direction == Set.RIGHT:
@@ -44,16 +44,16 @@ class Powerup(Etc.Stuff):
             if sprite.name == Set.MAP_TILE:
                 self.x_vel = 0
 
-    def check_y_collisions(self, level):
-        sprite_group = pg.sprite.Group(level.ground_step_pipe_group,
-                                       level.tile_group, level.box_group)
+    def check_y_collisions(self, system):
+        sprite_group = pg.sprite.Group(system.ground_step_pipe_group,
+                                       system.tile_group, system.box_group)
 
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         if sprite:
             self.y_vel = 0
             self.rect.bottom = sprite.rect.top
             self.state = Set.SLIDE
-        .check_is_falling(self)
+        system.check_is_falling(self)
 
     def animation(self):
         self.image = self.frames[self.frame_index]

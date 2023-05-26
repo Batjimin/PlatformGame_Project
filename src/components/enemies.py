@@ -256,3 +256,25 @@ class Boss(Enemy):
                 return True
         return False
             
+            
+            
+def create_enemy(item, level):
+    direction = s.LEFT if item['direction'] == 0 else s.RIGHT
+    color = item[s.COLOR]
+    if s.ENEMY_RANGE in item:
+        in_range = item[s.ENEMY_RANGE]
+        range_start = item['range_start']
+        range_end = item['range_end']
+    else:
+        in_range = False
+        range_start = range_end = 0
+
+    if item['type'] == s.ENEMY_TYPE_BOO:
+        sprite = Boo(item['x'], item['y'], dir, color,
+                        in_range, range_start, range_end)
+    
+    elif item['type'] == s.ENEMY_TYPE_BOSS:
+        sprite = Boss(item['x'], item['y'], dir, color,
+                           in_range, range_start, range_end, level)
+    
+    return sprite
