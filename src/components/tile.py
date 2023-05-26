@@ -38,7 +38,7 @@ def createTile(tile_group, item, system):
         else:
             tile_group.add(Tile(x,y,type,color))
 
-class Tile(Etc.Stuff):
+class Tile(Etc.Stuff): #Etc.stuff클래스 상속
     def __init__(self,x,y,type,color =Set.BROWN, group=None, name=Set.MAP_TILE):
         brown_rect = [(),()] #시트 만들어지면 좌표입력
         green_rect = [(),()]
@@ -116,7 +116,7 @@ class Tile(Etc.Stuff):
             group.add(TilePiece(*arg))
         self.kill()
         
-class TilePiece(Etc.Stuff):
+class TilePiece(Etc.Stuff): #사용하지 않을 가능성 높음.
     def __init__(self, x, y, x_vel, y_vel):
         Etc.Stuff.__init__(self, x, y, setup.GFX['tile_set'],
             [(68, 20, 8, 8)], Set.TILE_SIZE_MULTIPLIER)

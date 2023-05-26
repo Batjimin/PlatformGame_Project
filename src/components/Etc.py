@@ -1,4 +1,4 @@
-#etc stuff
+#etc stuff . 일단 완료
 import pygame as pg
 from .. import setup, tools
 from .. import Setting as Set
