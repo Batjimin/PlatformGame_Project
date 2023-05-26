@@ -1,4 +1,4 @@
-#information . 거의 완성 ! 픽셀값 오면 입력만 하면 됨.
+#information . 아마 완성. 플레이어는 픽셀 오류 가능성 있음.
 import pygame as pg
 from .. import setup, tools
 from .. import Setting as Set
@@ -121,8 +121,8 @@ class Info(): #게임 정보와 현재 게임 상태에 따라 라벨과 이미�
     def create_game_over_labels(self):
         game_label = []
         over_label = []
-        self.create_label(game_label, 'GAME', 280, 300)
-        self.create_label(over_label, 'OVER', 400, 300)
+        self.create_label(game_label, 'YOU', 280, 300)
+        self.create_label(over_label, '-F-', 400, 300)
         self.state_labels = [game_label, over_label, *self.info_labels]
 
     def create_info_labels(self):
@@ -172,11 +172,10 @@ class Info(): #게임 정보와 현재 게임 상태에 따라 라벨과 이미�
                            
         character_string = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ -*'
         
-        for character, image_rect in zip(character_string, image_rect_list):
-            self.image_dict[character] = tools.get_image(setup.GFX['text_images'], 
-                                            *image_rect, (92, 148, 252), 2.9)
-
-    
+        for character, image_rect in zip(character_string, image_rect_list): #zip함수 : 두 리스트 묶어서 순서대로 조합 -> 튜플로 표현
+            self.image_dict[character] = tools.get_image(setup.GFX['text_images'], #image_dict[character] : 문자열에 대응하는 이미지 참조 가능 
+                                            *image_rect, (92, 148, 252), 2.9) #영역 image_rect만큼 자르고 투명도 조정 후 2.9로 크기조정
+        
     def create_player_image(self):
         self.life_times_image = tools.get_image(setup.GFX['text_images'], 
                                 75, 247, 6, 6, (92, 148, 252), 2.9)

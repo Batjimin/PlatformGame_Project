@@ -291,7 +291,7 @@ class System(tools.State):
 
         if qr:
             self.adjust_player_for_x_collisions(qr)
-        elif brick:
+        elif tile:
             self.adjust_player_for_x_collisions(tile)
         elif ground_step_elevator:
             if (ground_step_elevator.name == Set.MAP_ELEVATOR and
@@ -316,8 +316,8 @@ class System(tools.State):
             elif powerup.type == Set.TYPE_LIFE_COFFEE:
                 self.update_score(500, powerup, 0)
                 self.game_info[Set.ATTENDENCE] += 1
-            #if powerup.type != Set.TYPE_FIREBALL:
-            #    powerup.kill()
+            if powerup.type != Set.TYPE_FIREBALL:
+                powerup.kill()
         elif enemy:
             if self.player.invincible:
                 self.update_score(100, enemy, 0)
@@ -337,7 +337,7 @@ class System(tools.State):
                 if self.player.invincible:
                     self.update_score(200, shell, 0)
                     self.move_to_dying_group(self.shell_group, shell)
-                    direction = c.RIGHT if self.player.facing_right else c.LEFT
+                    direction = Set.RIGHT if self.player.facing_right else Set.LEFT
                     shell.start_death_jump(direction)
                 elif self.player.hurt_invincible:
                     pass
