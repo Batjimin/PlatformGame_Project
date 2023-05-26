@@ -30,7 +30,7 @@ class Powerup(Etc.Stuff):
             self.kill()
 
     def check_x_collisions(self, level):
-        sprite_group = pg.sprite.Group(level.ground_step_pipe_group,
+        sprite_group = pg.sprite.Group(System.ground_step_pipe_group,
                                        level.tile_group, level.box_group)
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         if sprite:
@@ -53,7 +53,7 @@ class Powerup(Etc.Stuff):
             self.y_vel = 0
             self.rect.bottom = sprite.rect.top
             self.state = Set.SLIDE
-        level.check_is_falling(self)
+        .check_is_falling(self)
 
     def animation(self):
         self.image = self.frames[self.frame_index]

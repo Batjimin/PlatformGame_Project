@@ -1,4 +1,3 @@
-# 몬스터 종류 확실히 정해야 함
 import math
 import pygame as pg
 from .. import setup, tools
@@ -103,7 +102,7 @@ class Enemy(pg.sprite.Sprite):
     def revealing(self):
         pass
     
-    def sliding(self):         # 보스 패턴 슬라이딩
+    def sliding(self):        
         if self.direction == s.RIGHT:
             self.x_vel = 10
         else:
@@ -160,12 +159,12 @@ class Enemy(pg.sprite.Sprite):
             if self.state == s.WALK or self.state == s.FLY:
                 self.frame_index = 0
 
-    def check_y_collisions(self, level):
+    def check_y_collisions(self, System):
         if self.rect.bottom >= s.GROUND_HEIGHT:
-            sprite_group = level.ground_step_pipe_group
+            sprite_group = System.ground_step_pipe_group
         else:
-            sprite_group = pg.sprite.Group(level.ground_step_pipe_group,
-                                           level.tile_group, level.QR_brick_group)
+            sprite_group = pg.sprite.Group(System.ground_step_pipe_group,
+                                           System.tile_group, System.QR_brick_group)
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         if sprite and sprite.name != s.MAP_SLIDER:
             if self.rect.top <= sprite.rect.top:
@@ -183,9 +182,8 @@ class Boo(Enemy):
         frame_rect_list = self.get_frame_rect(color)
         self.setup_enemy(x, y, direction, name, setup.GFX[s.ENEMY_IMAGE],
                          frame_rect_list, in_range, range_start, range_end)
-        # dead jump image
+        
         self.frames.append(pg.transform.flip(self.frames[2], False, True))
-        # right walk images
         self.frames.append(pg.transform.flip(self.frames[0], True, False))
         self.frames.append(pg.transform.flip(self.frames[1], True, False))
 
@@ -205,3 +203,56 @@ class Boo(Enemy):
             self.death_timer = self.current_time
         elif (self.current_time - self.death_timer) > 500:
             self.kill()
+
+
+
+class Boss(Enemy):
+    def __init__(self, x, y, direction, color, in_range,
+                 range_start, range_end, level, name=s.BOSS):
+        Enemy.__init__(self)
+        frame_rect_list = [(2, 210, 32, 32), (42, 210, 32, 32),
+                           (82, 210, 32, 32), (122, 210, 32, 32)]
+        self.setup_enemy(x, y, direction, name, setup.GFX[s.ENEMY_IMAGE],
+                         frame_rect_list, in_range, range_start, range_end)
+        
+        self.frames.append(pg.transform.flip(self.frames[0], True, False))
+        self.frames.append(pg.transform.flip(self.frames[1], True, False))
+        self.frames.append(pg.transform.flip(self.frames[2], True, False))
+        self.frames.append(pg.transform.flip(self.frames[3], True, False))
+        self.x_vel = 0
+        self.gravity = 0.3
+        self.level = level
+        self.fire_timer = 0
+        self.jump_timer = 0
+
+    def load_frames(self, sheet, frame_rect_list):
+        for frame_rect in frame_rect_list:
+            self.frames.append(tools.get_image(sheet, *frame_rect,
+                                               s.BLACK, s.TILE_SIZE_MULTIPLIER))
+
+    def walking(self):
+        if (self.current_time - self.animate_timer) > 250:
+            if self.direction == s.RIGHT:
+                self.frame_index += 1
+                if self.frame_index > 7:
+                    self.frame_index = 4
+            else:
+                self.frame_index += 1
+                if self.frame_index > 3:
+                    self.frame_index = 0
+            self.animate_timer = self.current_time
+
+        if self.should_jump():
+            self.y_vel = -7
+
+    def falling(self):
+        if self.y_vel < 7:
+            self.y_vel += self.gravity
+
+    def should_jump(self):
+        if (self.rect.x - self.level.player.rect.x) < 400:
+            if (self.current_time - self.jump_timer) > 2500:
+                self.jump_timer = self.current_time
+                return True
+        return False
+            
