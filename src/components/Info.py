@@ -1,4 +1,4 @@
-#information . 아직 함수 내용 안적었음
+#information . 거의 완성 ! 픽셀값 오면 입력만 하면 됨.
 import pygame as pg
 from .. import setup, tools
 from .. import Setting as Set
