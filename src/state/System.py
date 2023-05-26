@@ -133,7 +133,23 @@ class System(tools.State):
             self.player.rect.bottom = Set.DEBUG_START_y
         self.viewport.x = self.player.rect.x - 110
         
+    def setup_tile_and_qr(self):
+        self.coin_group = pg.sprite.Group()
+        self.powerup_group = pg.sprite.Group()
+        self.brick_group = pg.sprite.Group()
+        self.brickpiece_group = pg.sprite.Group()
+
+        if Set.MAP_TILE in self.map_data:
+            for data in self.map_data[Set.MAP_TILE]:
+                tile.createTile(self.qr_group, data, self)
         
+        self.qr_group = pg.sprite.Group()
+        if Set.MAP_QR in self.map_data:
+            for data in self.map_data[Set.MAP_QR]:
+                if data['type'] == Set.TYPE_COIN:
+                    self.qr_group.add(QR_brick.QR_brick(data['x'], data['y'], data['type'], self.coin_group))
+                else:
+                    self.qr_group.add(QR_brick.QR_brick(data['x'], data['y'], data['type'], self.powerup_group))
         
         
         
