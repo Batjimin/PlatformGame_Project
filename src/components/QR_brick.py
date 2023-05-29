@@ -1,11 +1,11 @@
 # itembox 아마 완.
 import pygame as pg
-from .. import setup, tools
-from .. import Setting as s
+from ..import setup, tools
+from ..import Setting as s
 from . import Coin, powerup
 
 
-class QR_brick(pg.sprite.sprite):
+class QR_brick(pg.sprite.Sprite):
     def __init__(self, x, y, type, group=None, name=s.MAP_QR):
         pg.sprite.Sprite.__init__(self)
 

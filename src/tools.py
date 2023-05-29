@@ -18,7 +18,7 @@ def get_image(sheet, x, y, width, height, colorkey, scale):
     rect = image.get_rect()
     image.set_colorkey(colorkey)
     image.blit(sheet,(0,0),(x,y,width,height)) #시트에서 이미지 가져오기
-    image = pg.transform.scale(image, int((rect.width*scale),int(rect.height*scale)))
+    image = pg.transform.scale(image, (int(rect.width*scale),int(rect.height*scale)))
     return image
     
 #상태 *부모 클래스* 정의
@@ -51,7 +51,7 @@ class Control():
         self.screen = pg.display.get_surface()
         self.current_time = 0.0
         self.done = False
-        self.clock = pg.time() #time.Clock()일지도
+        self.clock = pg.time.Clock() #time.Clock()일지도
         self.fps = 60
         self.keys = pg.key.get_pressed()
         self.state_dict = {}
@@ -70,7 +70,7 @@ class Control():
         self.state.update(self.screen, self.keys, self.current_time)
     
     def change_state(self): #flip state 
-        self.previous = self.state_name
+        previous = self.state_name
         self.state_name = self.state.next
         persist = self.state.cleanup() #유지데이터 삭제
         self.state = self.state_dict[self.state_name] 

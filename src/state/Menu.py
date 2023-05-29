@@ -15,9 +15,9 @@ class Menu(tools.State):
                    Set.CURRENT_TIME: 0.0,
                    Set.SYSTEM_NUM:1, #한번 제거해보고 차이 확인 필요
                    Set.YOUR_NAME: Set.PLAYER}
-        self.startup(0.0, persist)
+        self.startup(0.0 , persist)
         
-    def startup(self, persist):
+    def startup(self, current_time, persist):
         self.next = Set.LOADING
         self.persist = persist
         self.game_info = persist
