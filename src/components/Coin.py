@@ -50,3 +50,37 @@ class Coin(pg.sprite.Sprite):
         
         if self.rect.bottom > self.initial_height:
             self.kill()
+            
+class StaticCoin(pg.sprite.Sprite):
+    def __init__(self, x, y):
+        pg.sprite.Sprite.__init__(self)
+        self.frame_index = 0
+        self.frames = []
+        self.load_frames()
+        self.image = self.frames[self.frame_index]
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.animation_timer = 0
+
+    def load_frames(self):
+        sheet = setup.GFX[s.ITEM_IMAGE]
+        frame_rect_list = [(3, 98, 9, 13), (19, 98, 9, 13),
+                        (35, 98, 9, 13), (51, 98, 9, 13)]
+        for frame_rect in frame_rect_list:
+            self.frames.append(tools.get_image(sheet, *frame_rect, 
+                            s.BLACK, s.TILE_SIZE_MULTIPLIER))
+
+    def update(self, game_info):
+        self.current_time = game_info[s.CURRENT_TIME]
+
+        time_list = [375, 125, 125, 125]
+        if self.animation_timer == 0:
+            self.animation_timer = self.current_time
+        elif (self.current_time - self.animation_timer) > time_list[self.frame_index]:
+            self.frame_index += 1
+            if self.frame_index == 4:
+                self.frame_index = 0
+            self.animation_timer = self.current_time
+        
+        self.image = self.frames[self.frame_index]

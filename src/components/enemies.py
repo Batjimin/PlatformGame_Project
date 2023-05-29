@@ -226,7 +226,7 @@ class Boss(Enemy):
         if color == s.COLOR_TYPE_GREEN:
             frame_rect_list = [(150, 0, 16, 24), (180, 0, 16, 24),
                         (360, 5, 16, 15)]
-        elif color == c.COLOR_TYPE_RED:
+        elif color == s.COLOR_TYPE_RED:
             frame_rect_list = [(150, 30, 16, 24), (180, 30, 16, 24),
                         (360, 35, 16, 15)]
         else:
