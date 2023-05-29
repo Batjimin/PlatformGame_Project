@@ -111,7 +111,7 @@ class Enemy(pg.sprite.Sprite):
     def animation(self):
         self.image = self.frames[self.frame_index]
         
-    def update_position(self):  #위치 업데이트
+    def update_position(self,system):  #위치 업데이트
         self.rect.x += self.x_vel
         self.check_x_collisions()
 
@@ -127,8 +127,13 @@ class Enemy(pg.sprite.Sprite):
         if (self.state != s.DEATH_JUMP and 
             self.state != s.FLY):
             self.check_y_collisions()
+            
+        if self.rect.x <= 0:
+            self.kill()
+        elif self.rect.y > (system.viewport.bottom):
+            self.kill()
         
-    def check_x_collisions(self, level):
+    def check_x_collisions(self, system):
         if self.in_range and not self.isVertical:
             if self.rect.x < self.range_start:
                 self.rect.x = self.range_start
@@ -138,8 +143,7 @@ class Enemy(pg.sprite.Sprite):
 
                 self.change_direction(s.LEFT)
         else:
-            collider = pg.sprite.spritecollideany(
-                self, level.ground_step_pipe_group)
+            collider = pg.sprite.spritecollideany(self, system.elevator_group)
             if collider:
                 if self.direction == s.RIGHT:
                     self.rect.right = collider.rect.left
@@ -163,7 +167,7 @@ class Enemy(pg.sprite.Sprite):
         if self.rect.bottom >= s.GROUND_HEIGHT:
             sprite_group = System.ground_step_pipe_group
         else:
-            sprite_group = pg.sprite.Group(System.ground_step_pipe_group,
+            sprite_group = pg.sprite.Group(System.elevator_group,
                                            System.tile_group, System.QR_brick_group)
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         if sprite and sprite.name != s.MAP_SLIDER:
@@ -208,73 +212,24 @@ class Boo(Enemy):
 
 class Boss(Enemy):
     def __init__(self, x, y, direction, color, in_range,
-                 range_start, range_end, level, name=s.BOSS):
+                range_start, range_end, name=s.BOSS):
         Enemy.__init__(self)
-        frame_rect_list = [(2, 210, 32, 32), (42, 210, 32, 32),
-                           (82, 210, 32, 32), (122, 210, 32, 32)]
+        frame_rect_list = self.get_frame_rect(color)
         self.setup_enemy(x, y, direction, name, setup.GFX[s.ENEMY_IMAGE],
-                         frame_rect_list, in_range, range_start, range_end)
-        
+                    frame_rect_list, in_range, range_start, range_end)
+    
+        self.frames.append(pg.transform.flip(self.frames[2], False, True))
         self.frames.append(pg.transform.flip(self.frames[0], True, False))
         self.frames.append(pg.transform.flip(self.frames[1], True, False))
-        self.frames.append(pg.transform.flip(self.frames[2], True, False))
-        self.frames.append(pg.transform.flip(self.frames[3], True, False))
-        self.x_vel = 0
-        self.gravity = 0.3
-        self.level = level
-        self.fire_timer = 0
-        self.jump_timer = 0
 
-    def load_frames(self, sheet, frame_rect_list):
-        for frame_rect in frame_rect_list:
-            self.frames.append(tools.get_image(sheet, *frame_rect,
-                                               s.BLACK, s.TILE_SIZE_MULTIPLIER))
-
-    def walking(self):
-        if (self.current_time - self.animate_timer) > 250:
-            if self.direction == s.RIGHT:
-                self.frame_index += 1
-                if self.frame_index > 7:
-                    self.frame_index = 4
-            else:
-                self.frame_index += 1
-                if self.frame_index > 3:
-                    self.frame_index = 0
-            self.animate_timer = self.current_time
-
-        if self.should_jump():
-            self.y_vel = -7
-
-    def falling(self):
-        if self.y_vel < 7:
-            self.y_vel += self.gravity
-
-    def should_jump(self):
-        if (self.rect.x - self.level.player.rect.x) < 400:
-            if (self.current_time - self.jump_timer) > 2500:
-                self.jump_timer = self.current_time
-                return True
-        return False
-            
-            
-            
-def create_enemy(item, level):
-    direction = s.LEFT if item['direction'] == 0 else s.RIGHT
-    color = item[s.COLOR]
-    if s.ENEMY_RANGE in item:
-        in_range = item[s.ENEMY_RANGE]
-        range_start = item['range_start']
-        range_end = item['range_end']
-    else:
-        in_range = False
-        range_start = range_end = 0
-
-    if item['type'] == s.ENEMY_TYPE_BOO:
-        sprite = Boo(item['x'], item['y'], dir, color,
-                        in_range, range_start, range_end)
-    
-    elif item['type'] == s.ENEMY_TYPE_BOSS:
-        sprite = Boss(item['x'], item['y'], dir, color,
-                           in_range, range_start, range_end, level)
-    
-    return sprite
+    def get_frame_rect(self, color):
+        if color == s.COLOR_TYPE_GREEN:
+            frame_rect_list = [(150, 0, 16, 24), (180, 0, 16, 24),
+                        (360, 5, 16, 15)]
+        elif color == c.COLOR_TYPE_RED:
+            frame_rect_list = [(150, 30, 16, 24), (180, 30, 16, 24),
+                        (360, 35, 16, 15)]
+        else:
+            frame_rect_list = [(150, 60, 16, 24), (180, 60, 16, 24),
+                        (360, 65, 16, 15)]
+        return frame_rect_list
