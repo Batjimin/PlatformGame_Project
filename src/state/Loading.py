@@ -54,7 +54,7 @@ class TimeOut(LoadScreen):
         self.time_list = [2400, 2600, 2635]
 
     def set_next_state(self):
-        if self.persist[Set.LIVES] == 0:
+        if self.persist[Set.ATTENDENCE] == 0:
             return Set.GAME_OVER
         else:
             return Set.LOADING

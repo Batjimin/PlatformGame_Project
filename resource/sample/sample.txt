@@ -3,3 +3,5 @@ title_screen.png 형식으로 로고 제작 필요. 현재 사이즈 조정 위�
 item_images.png로 아이템 정리
 enemy_images.png로 적 정리
 chara_images.png는 플레이어
+
+현재 Images 내 이미지는 게임 동작 확인을 위한 예제.
