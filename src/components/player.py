@@ -160,13 +160,13 @@ class Player(pg.sprite.Sprite):
             self.changing_to_small()
         elif self.state == Set.BIG_TO_FIRE:
             self.changing_to_fire()
-        elif self.state == Set.DOWN_PIPE:
+        elif self.state == Set.DOWN_ELEVATOR:
             self.y_vel = 1
             self.rect.y += self.y_vel
-        elif self.state == Set.UP_PIPE:
+        elif self.state == Set.UP_ELEVATOR:
             self.y_vel = -1
             self.rect.y += self.y_vel
-            if self.rect.bottom < self.up_pipe_y:
+            if self.rect.bottom < self.up_elevator_y:
                 self.state = Set.STAND
 
     def check_to_allow_jump(self, keys):

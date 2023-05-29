@@ -1,4 +1,4 @@
-# itembox
+# itembox 아마 완.
 import pygame as pg
 from .. import setup, tools
 from .. import Setting as s

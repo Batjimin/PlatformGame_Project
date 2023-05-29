@@ -165,7 +165,7 @@ class Enemy(pg.sprite.Sprite):
 
     def check_y_collisions(self, System):
         if self.rect.bottom >= s.GROUND_HEIGHT:
-            sprite_group = System.ground_step_pipe_group
+            sprite_group = System.ground_step_elevator_group
         else:
             sprite_group = pg.sprite.Group(System.elevator_group,
                                            System.tile_group, System.QR_brick_group)

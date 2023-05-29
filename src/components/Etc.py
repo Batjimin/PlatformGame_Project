@@ -137,9 +137,9 @@ class Score():
             screen.blit(digit.image, digit.rect)
 
 
-class Pipe(Stuff):
-    def __init__(self, x, y, width, height, type, name=Set.MAP_PIPE):
-        if type == Set.PIPE_TYPE_HORIZONTAL:
+class Elevator(Stuff):
+    def __init__(self, x, y, width, height, type, name=Set.MAP_ELEVATOR):
+        if type == Set.ELEVATOR_TYPE_HORIZONTAL:
             rect = [(32, 128, 37, 30)]
         else:
             rect = [(0, 160, 32, 30)]
@@ -147,15 +147,15 @@ class Pipe(Stuff):
                        rect, Set.TILE_SIZE_MULTIPLIER)
         self.name = name
         self.type = type
-        if type != Set.PIPE_TYPE_HORIZONTAL:
+        if type != Set.ELEVATOR_TYPE_HORIZONTAL:
             self.create_image(x, y, height)
 
-    def create_image(self, x, y, pipe_height):
+    def create_image(self, x, y, elevator_height):
         img = self.image
         rect = self.image.get_rect()
         width = rect.w
         height = rect.h
-        self.image = pg.Surface((width, pipe_height)).convert()
+        self.image = pg.Surface((width, elevator_height)).convert()
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -163,16 +163,16 @@ class Pipe(Stuff):
         top_height = height//2 + 3
         bottom_height = height//2 - 3
         self.image.blit(img, (0, 0), (0, 0, width, top_height))
-        num = (pipe_height - top_height) // bottom_height + 1
+        num = (elevator_height - top_height) // bottom_height + 1
         for i in range(num):
             y = top_height + i * bottom_height
             self.image.blit(img, (0, y), (0, top_height, width, bottom_height))
         self.image.set_colorkey(Set.BLACK)
 
     def check_ignore_collision(self, level):
-        if self.type == Set.PIPE_TYPE_HORIZONTAL:
+        if self.type == Set.ELEVATOR_TYPE_HORIZONTAL:
             return True
-        elif level.player.state == Set.DOWN_TO_PIPE:
+        elif level.player.state == Set.DOWN_ELEVATOR:
             return True
         return False
 

@@ -45,7 +45,10 @@ YOUR_NAME = 'player name'
 PLAYER = 'player'
 SYSTEM_NUM = 'system num'
 
+MAP_IMAGE = 'image_name'
 MAP_INDEX = 'map_index'
+SUB_MAP = 'sub_map'
+MAP_GROUND = 'ground'
 MAP_SLIDER = 'slider'
 MAP_ELEVATOR = 'elevator'     # 엘리베이터 (파이프와 같은 역할)
 MAP_TILE = 'tile'             # QR코드 타일
@@ -92,8 +95,8 @@ BIG_TO_SMALL = 'big to small'
 FLAGPOLE = 'flag pole'
 WALK_AUTO = 'walk auto'
 IN_CASTLE = 'in castle'
-DOWN_PIPE = 'pipe down'
-UP_PIPE = 'pipe up'
+DOWN_ELEVATOR = 'elevator down'
+UP_ELEVATOR = 'elevator up'
 
 #플레이어 이동. 중력 조절 필요.
 PLAYER_SPEED = 'speed'
