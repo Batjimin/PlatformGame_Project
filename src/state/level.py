@@ -6,7 +6,7 @@ from .. import setup, tools
 from .. import Setting as Set
 from ..components import Info, Etc, player, tile, QR_brick, enemies, powerup, Coin
 
-class System(tools.State):
+class level(tools.State):
     def __init__(self):
         tools.State.__init__(self)
         self.player = None
@@ -18,7 +18,7 @@ class System(tools.State):
         self.death_timer = 0    
         
         self.moving_score_list = []
-        self.overhead_info = Info.Info(self.game_info, Set.SYSTEM)
+        self.overhead_info = Info.Info(self.game_info, Set.LEVEL)
         self.load_map()
         self.setup_background()
         self.setup_maps()
@@ -35,7 +35,7 @@ class System(tools.State):
         self.setup_sprite_groups()
         
     def load_map(self):
-        map_file = 'stage' + str(self.game_info[Set.SYSTEM_NUM]) + '.json'
+        map_file = 'stage' + str(self.game_info[Set.LEVEL_NUM]) + '.json'
         file_path = os.path.join('src', 'data', map_file)
         f = open(file_path)
         self.map_data = json.load(f)
@@ -198,7 +198,7 @@ class System(tools.State):
         elif self.player.dead:
             self.next = Set.LOADING
         else:
-            self.game_info[Set.SYSTEM_NUM] += 1
+            self.game_info[Set.LEVEL_NUM] += 1
             self.next = Set.LOADING
 
     def update(self, surface, keys, current_time):
@@ -550,7 +550,7 @@ class System(tools.State):
             self.player.rect.bottom = sprite.rect.top
             if self.player.state == Set.FLAGPOLE:
                 self.player.state = Set.WALK_AUTO
-            elif self.player.state == Set.END_OF_LEVEL_FALL:
+            elif self.player.state == Set.END_OF_level_FALL:
                 self.player.state = Set.WALK_AUTO
             else:
                 self.player.state = Set.WALK
@@ -586,8 +586,8 @@ class System(tools.State):
         
         if pg.sprite.spritecollideany(sprite, check_group) is None:
             if (sprite.state == Set.WALK_AUTO or
-                sprite.state == Set.END_OF_LEVEL_FALL):
-                sprite.state = Set.END_OF_LEVEL_FALL
+                sprite.state == Set.END_OF_level_FALL):
+                sprite.state = Set.END_OF_level_FALL
             elif (sprite.state != Set.JUMP and 
                 sprite.state != Set.FLAGPOLE and
                 not self.in_frozen_state()):

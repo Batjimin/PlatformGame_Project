@@ -111,7 +111,7 @@ class Enemy(pg.sprite.Sprite):
     def animation(self):
         self.image = self.frames[self.frame_index]
         
-    def update_position(self,system):  #위치 업데이트
+    def update_position(self,level):  #위치 업데이트
         self.rect.x += self.x_vel
         self.check_x_collisions()
 
@@ -130,10 +130,10 @@ class Enemy(pg.sprite.Sprite):
             
         if self.rect.x <= 0:
             self.kill()
-        elif self.rect.y > (system.viewport.bottom):
+        elif self.rect.y > (level.viewport.bottom):
             self.kill()
         
-    def check_x_collisions(self, system):
+    def check_x_collisions(self, level):
         if self.in_range and not self.isVertical:
             if self.rect.x < self.range_start:
                 self.rect.x = self.range_start
@@ -143,7 +143,7 @@ class Enemy(pg.sprite.Sprite):
 
                 self.change_direction(s.LEFT)
         else:
-            collider = pg.sprite.spritecollideany(self, system.elevator_group)
+            collider = pg.sprite.spritecollideany(self, level.elevator_group)
             if collider:
                 if self.direction == s.RIGHT:
                     self.rect.right = collider.rect.left
@@ -163,19 +163,19 @@ class Enemy(pg.sprite.Sprite):
             if self.state == s.WALK or self.state == s.FLY:
                 self.frame_index = 0
 
-    def check_y_collisions(self, System):
+    def check_y_collisions(self, level):
         if self.rect.bottom >= s.GROUND_HEIGHT:
-            sprite_group = System.ground_step_elevator_group
+            sprite_group = level.ground_step_elevator_group
         else:
-            sprite_group = pg.sprite.Group(System.elevator_group,
-                                           System.tile_group, System.QR_brick_group)
+            sprite_group = pg.sprite.Group(level.elevator_group,
+                                           level.tile_group, level.QR_brick_group)
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         if sprite and sprite.name != s.MAP_SLIDER:
             if self.rect.top <= sprite.rect.top:
                 self.rect.bottom = sprite.rect.y
                 self.y_vel = 0
                 self.state = s.WALK
-        System.check_is_falling(self)
+        level.check_is_falling(self)
         
         
 

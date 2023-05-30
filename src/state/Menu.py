@@ -13,7 +13,7 @@ class Menu(tools.State):
                    Set.ATTENDENCE: 3,
                    Set.TOP_SCORE: 0,
                    Set.CURRENT_TIME: 0.0,
-                   Set.SYSTEM_NUM:1, #한번 제거해보고 차이 확인 필요
+                   Set.LEVEL_NUM:1, #한번 제거해보고 차이 확인 필요
                    Set.YOUR_NAME: Set.PLAYER}
         self.startup(0.0 , persist)
         
@@ -48,7 +48,7 @@ class Menu(tools.State):
         self.game_info[Set.SCORE] = 0
         self.game_info[Set.ATTENDENCE] = 3
         self.game_info[Set.CURRENT_TIME] = 0.0
-        self.game_info[Set.SYSTEM_NUM] =1 #제거해보고 차이 분석
+        self.game_info[Set.LEVEL_NUM] =1 #제거해보고 차이 분석
         self.persist = self.game_info
         
     def setup_cursor(self):

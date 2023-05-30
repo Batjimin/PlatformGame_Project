@@ -29,11 +29,11 @@ COLOR_TYPE_RED = 2
 COLOR_TYPE_BROWN = 3
 
 #게임 시스템
-MENU = 'main menu'
-LOADING = 'load screen'
+MENU = 'menu'
+LOADING = 'loading'
 TIME_OUT = 'time out'
 GAME_OVER = 'game over'
-SYSTEM = 'system'
+LEVEL = 'level'
 
 #게임 요소
 TOTAL_COIN = 'total coin'
@@ -43,7 +43,7 @@ ATTENDENCE = 'attendence' #생명 = 출석
 CURRENT_TIME = 'current time'
 YOUR_NAME = 'player name'
 PLAYER = 'player'
-SYSTEM_NUM = 'system num'
+LEVEL_NUM = 'level num'
 
 MAP_IMAGE = 'image_name'
 MAP_INDEX = 'map_index'

@@ -16,7 +16,7 @@ def createTileList(tile_group,num,x,y,type,color,direction):
             tmp_x = x + i *size
         tile_group.add(Tile(tmp_x,tmp_y,type,color))
 
-def createTile(tile_group, item, system):
+def createTile(tile_group, item, level):
     if Set.COLOR in item :
         color = item[Set.COLOR]
     else : 
@@ -24,7 +24,7 @@ def createTile(tile_group, item, system):
     
     x,y,type = item['x'], item['y'], item['type']
     if type == Set.TYPE_COIN:  
-        tile_group.add(Tile(x,y,type,color,system.coin_group))
+        tile_group.add(Tile(x,y,type,color,level.coin_group))
     elif(type==Set.TYPE_PAPER or 
          type == Set.TYPE_HOT6 or 
          type ==Set.TYPE_GPT or
