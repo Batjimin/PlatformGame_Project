@@ -45,6 +45,7 @@ YOUR_NAME = 'player name'
 PLAYER = 'player'
 LEVEL_NUM = 'level num'
 
+MAP_COIN = "coin"
 MAP_IMAGE = 'image_name'
 MAP_INDEX = 'map_index'
 SUB_MAP = 'sub_map'
@@ -66,6 +67,7 @@ TYPE_HOT6           = 4          # 핫식스   (파이어 볼)
 TYPE_REDBULL        = 5          # 레드불   (fly)
 TYPE_LIFE_COFFEE    = 6          # 커피     (생명(출석)추가 커피 )
 TYPE_GPT            = 7          # gpt형태  (블록 생성)
+TYPE_FIREBALL       = 8
 
 MAP_ENEMY   = 'enemy'
 ENEMY_RANGE = 'range'

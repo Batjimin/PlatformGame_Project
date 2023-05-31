@@ -72,6 +72,12 @@ class level(tools.State):
                 self.slider_group.add(Etc.Slider(data['x'], data['y'], data['num'],
                     data['direction'], data['range_start'], data['range_end'], vel))
 
+    def setup_static_coin(self):
+        self.static_coin_group = pg.sprite.Group()
+        if Set.MAP_COIN in self.map_data:
+            for data in self.map_data[Set.MAP_COIN]:
+                self.static_coin_group.add(Coin.StaticCoin(data['x'], data['y']))
+
     def setup_tile_and_box(self):
         self.coin_group = pg.sprite.Group()
         self.powerup_group = pg.sprite.Group()
@@ -159,7 +165,7 @@ class level(tools.State):
     
     def setup_player(self):
         if self.player is None:
-            self.player = player.Player(self.game_info[Set.PLAYER_NAME])
+            self.player = player.Player(self.game_info[Set.YOUR_NAME])
         else:
             self.player.restart()
         self.player.rect.x = self.viewport.x + self.player_x
@@ -237,7 +243,7 @@ class level(tools.State):
             self.enemy_group.update(self.game_info, self)
             self.shell_group.update(self.game_info, self)
             self.brick_group.update()
-            self.box_group.update(self.game_info)
+            self.qr_group.update(self.game_info)
             self.powerup_group.update(self.game_info, self)
             self.coin_group.update(self.game_info)
             self.brickpiece_group.update()

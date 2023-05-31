@@ -46,7 +46,7 @@ class Powerup(Etc.Stuff):
 
     def check_y_collisions(self, level):
         sprite_group = pg.sprite.Group(level.ground_step_elevator_group,
-                                       level.tile_group, level.box_group)
+                                       level.tile_group, level.qr_group)
 
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         if sprite:
@@ -83,7 +83,7 @@ class Coffee(Powerup):
             self.update_position(level)
         self.animation()
 
-class HOT6(Powerup):  # 파이어 볼
+class HOT6(Powerup):  # 획득시 파이어 볼 가능
     def __init__(self, x, y):
         frame_rect_list = [(0, 32, 16, 16), (16, 32, 16, 16),
                            (32, 32, 16, 16), (48, 32, 16, 16)]
@@ -157,7 +157,7 @@ class Paper(Powerup):
                 self.y_vel = -5
 
 
-class REDBULL(Powerup): # 플라이
+class FIREBALL(Powerup): # 파이어 볼 (구체)
     def __init__(self, x, y, facing_right):
         frame_rect_list = [(96, 144, 8, 8), (104, 144, 8, 8),
                            (96, 152, 8, 8), (104, 152, 8, 8),
@@ -227,3 +227,9 @@ class REDBULL(Powerup): # 플라이
     def change_to_explode(self):
         self.frame_index = 4
         self.state = Set.EXPLODING
+        
+        
+class REDBULL(Powerup)
+{
+    
+}
