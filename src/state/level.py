@@ -1,4 +1,4 @@
-#시스템. 미완. 주석도 없다!
+# 파일명이 바뀌어서 다른 파일들에 쓰인 System -> level 확인
 import os
 import json
 import pygame as pg
