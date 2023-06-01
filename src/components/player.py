@@ -475,7 +475,7 @@ class Player(pg.sprite.Sprite):
                 self.set_player_image(frame, frame_index)
             self.change_index += 1
 
-    def changing_to_fire(self)
+    def changing_to_fire(self):
     {
         
 

@@ -1,0 +1,28 @@
+{
+    "image_name":"character",
+    "image_frames":
+    {
+        "right_small_normal":
+        [
+            {"x":, "y": , "width":, "height":}
+        ],
+        "right_big_normal":
+        [
+            {"x":, "y":  , "width":, "height":}
+        ],
+        "right_big_fire":
+        [
+            {"x":, "y": , "width":, "height":}
+        ]
+    },
+    "speed":
+    {
+        "max_walk_speed":6,
+        "max_run_speed":12,
+        "max_y_velocity":11,
+        "walk_accel":0.15,
+        "run_accel":0.3,
+        "jump_velocity":-10.5
+    }
+    
+}

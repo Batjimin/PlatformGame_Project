@@ -145,7 +145,7 @@ class Paper(Powerup):
 
     def check_y_collisions(self, level):
         sprite_group = pg.sprite.Group(level.ground_step_elevator_group,
-                                       level.tile_group, level.box_group)
+                                       level.tile_group, level.qr_group)
 
         sprite = pg.sprite.spritecollideany(self, sprite_group)
 
@@ -208,7 +208,7 @@ class FIREBALL(Powerup): # 파이어 볼 (구체)
 
     def check_y_collisions(self, level):
         sprite_group = pg.sprite.Group(level.ground_step_elevator_group,
-                                       level.tile_group, level.box_group)
+                                       level.tile_group, level.qr_group)
 
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         enemy = pg.sprite.spritecollideany(self, level.enemy_group)
