@@ -451,7 +451,7 @@ class Player(pg.sprite.Sprite):
                 self.set_player_image(frame, frame_index)
             self.change_index += 1
 
-    def changing_to_fire(self):
+    def changing_to_fire(self): 
         timer_list = [65, 195, 260, 325, 390, 455, 520, 585, 650, 715, 780, 845, 910, 975]
         # 0:fire, 1:big green, 2:big red, 3:big black
         size_list = [0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1]
@@ -474,6 +474,12 @@ class Player(pg.sprite.Sprite):
                 frame, frame_index = frames[size_list[self.change_index]]
                 self.set_player_image(frame, frame_index)
             self.change_index += 1
+
+    def changing_to_fire(self)
+    {
+        
+
+    }
 
     def set_player_image(self, frames, frame_index):
         self.frame_index = frame_index
