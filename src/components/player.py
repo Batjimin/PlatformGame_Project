@@ -168,6 +168,8 @@ class Player(pg.sprite.Sprite):
             self.rect.y += self.y_vel
             if self.rect.bottom < self.up_elevator_y:
                 self.state = Set.STAND
+        elif self.state == Set.BIG_TO_FLY:
+            self.changing_to_fly()
 
     def check_to_allow_jump(self, keys):
         if not keys[tools.keybinding['jump']]:

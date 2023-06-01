@@ -229,7 +229,7 @@ class FIREBALL(Powerup): # 파이어 볼 (구체)
         self.state = Set.EXPLODING
         
         
-class REDBULL(Powerup)
+class REDBULL(Powerup):
 {
     
 }
