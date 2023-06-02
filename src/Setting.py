@@ -70,10 +70,9 @@ TYPE_PAPER = 2          # 족보(임시)
 MAP_QR     = 'QR'
 TYPE_COFFEE         = 3          # 커피     (성장 버프)
 TYPE_HOT6           = 4          # 핫식스   (파이어 볼)
-TYPE_REDBULL        = 5          # 레드불   (fly)
-TYPE_LIFE_COFFEE    = 6          # 커피     (생명(출석)추가 커피 )
-TYPE_GPT            = 7          # gpt형태  (블록 생성)
-TYPE_FIREBALL       = 8
+TYPE_FIREBALL       = 5
+TYPE_LIFE_COFFEE    = 6          # 커피     (생명(출석)추가 커피 )       
+TYPE_REDBULL        = 7          # 레드불   (fly)    
 
 MAP_ENEMY   = 'enemy'
 ENEMY_RANGE = 'range'

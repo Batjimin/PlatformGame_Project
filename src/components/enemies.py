@@ -168,7 +168,7 @@ class Enemy(pg.sprite.Sprite):
             sprite_group = level.ground_step_elevator_group
         else:
             sprite_group = pg.sprite.Group(level.elevator_group,
-                                           level.tile_group, level.QR_brick_group)
+                                           level.tile_group, level.qr_brick_group)
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         if sprite and sprite.name != s.MAP_SLIDER:
             if self.rect.top <= sprite.rect.top:

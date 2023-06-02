@@ -69,7 +69,7 @@ class Flag(Etc):
 
 class CastleFlag(Etc):
     def __init__(self, x, y):
-        Etc.__init__(self, x, y, setup.GFX[Set.ITEM_SHEET],
+        Etc.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
                 [(129, 2, 14, 14)], Set.SIZE_MULTIPLIER)
         self.y_vel = -2
         self.target_height = y
@@ -103,7 +103,7 @@ class Score():
                             (20, 168, 4, 8), (0, 0, 0, 0)]
         digit_string = '0123456789'
         for digit, image_rect in zip(digit_string, digit_rect_list):
-            self.image_dict[digit] = tools.get_image(setup.GFX[Set.ITEM_SHEET],
+            self.image_dict[digit] = tools.get_image(setup.GFX[Set.ITEM_IMAGE],
                                     *image_rect, Set.BLACK, Set.TILE_SIZE_MULTIPLIER)
     
     def create_score_digit(self):
@@ -131,16 +131,13 @@ class Score():
 
 class Elevator(Etc):
     def __init__(self, x, y, width, height, type, name=Set.MAP_ELEVATOR):
-        if type == Set.ELEVATOR_TYPE_HORIZONTAL:
-            rect = [(32, 128, 37, 30)]
-        else:
-            rect = [(0, 160, 32, 30)]
+        rect = [(0, 160, 32, 30)]
         Etc.__init__(self, x, y, setup.GFX['tile_set'],
                 rect, Set.TILE_SIZE_MULTIPLIER)
         self.name = name
         self.type = type
-        if type != Set.ELEVATOR_TYPE_HORIZONTAL:
-            self.create_image(x, y, height)
+        
+        self.create_image(x, y, height)
 
     def create_image(self, x, y, elevator_height):
         img = self.image
@@ -162,15 +159,13 @@ class Elevator(Etc):
         self.image.set_colorkey(Set.BLACK)
 
     def check_ignore_collision(self, level):
-        if self.type == Set.ELEVATOR_TYPE_HORIZONTAL:
-            return True
-        elif level.player.state == Set.DOWN_ELEVATOR:
+        if level.player.state == Set.DOWN_ELEVATOR:
             return True
         return False
 
 class Slider(Etc):
     def __init__(self, x, y, num, direction, range_start, range_end, vel, name=Set.MAP_SLIDER):
-        Etc.__init__(self, x, y, setup.GFX[Set.ITEM_SHEET],
+        Etc.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
                 [(64, 128, 15, 8)], 2.8)
         self.name = name
         self.create_image(x, y, num)
@@ -184,7 +179,6 @@ class Slider(Etc):
         
 
     def create_image(self, x, y, num):
-        '''original slider image is short, we need to multiple it '''
         if num == 1:
             return
         img = self.image
