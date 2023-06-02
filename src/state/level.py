@@ -78,7 +78,7 @@ class level(tools.State):
             for data in self.map_data[Set.MAP_COIN]:
                 self.static_coin_group.add(Coin.StaticCoin(data['x'], data['y']))
 
-    def setup_tile_and_box(self):
+    def setup_tile_and_qr(self):
         self.coin_group = pg.sprite.Group()
         self.powerup_group = pg.sprite.Group()
         self.tile_group = pg.sprite.Group()
@@ -133,7 +133,7 @@ class level(tools.State):
         self.level.blit(self.background, self.viewport, self.viewport)
         self.powerup_group.draw(self.level)
         self.tile_group.draw(self.level)
-        self.qr_group.draw(self.level)
+        self.qr_brick_group.draw(self.level)
         self.coin_group.draw(self.level)
         self.dying_group.draw(self.level)
         self.tilepiece_group.draw(self.level)
@@ -183,15 +183,15 @@ class level(tools.State):
 
         if Set.MAP_TILE in self.map_data:
             for data in self.map_data[Set.MAP_TILE]:
-                tile.createTile(self.qr_group, data, self)
+                tile.createTile(self.qr_brick_group, data, self)
         
-        self.qr_group = pg.sprite.Group()
+        self.qr_brick_group = pg.sprite.Group()
         if Set.MAP_QR in self.map_data:
             for data in self.map_data[Set.MAP_QR]:
                 if data['type'] == Set.TYPE_COIN:
-                    self.qr_group.add(QR_brick.QR_brick(data['x'], data['y'], data['type'], self.coin_group))
+                    self.qr_brick_group.add(QR_brick.QR_brick(data['x'], data['y'], data['type'], self.coin_group))
                 else:
-                    self.qr_group.add(QR_brick.QR_brick(data['x'], data['y'], data['type'], self.powerup_group))       
+                    self.qr_brick_group.add(QR_brick.QR_brick(data['x'], data['y'], data['type'], self.powerup_group))       
         
     def update_game_info(self):
         if self.player.dead:
@@ -243,7 +243,7 @@ class level(tools.State):
             self.enemy_group.update(self.game_info, self)
             self.shell_group.update(self.game_info, self)
             self.brick_group.update()
-            self.qr_group.update(self.game_info)
+            self.qr_brick_group.update(self.game_info)
             self.powerup_group.update(self.game_info, self)
             self.coin_group.update(self.game_info)
             self.brickpiece_group.update()
@@ -347,7 +347,7 @@ class level(tools.State):
                 coffee_QR = QR_brick.QR_brick(checkpoint.rect.x, checkpoint.rect.bottom - 40,
                                 Set.TYPE_LIFE_COFFEE, self.powerup_group)
                 coffee_QR.start_bump(self.moving_score_list)
-                self.QR_group.add(coffee_QR)
+                self.qr_brick_group.add(coffee_QR)
                 self.player.y_vel = 7
                 self.player.rect.y = coffee_QR.rect.bottom
                 self.player.state = Set.FALL
@@ -371,16 +371,17 @@ class level(tools.State):
         self.player_group = pg.sprite.Group(self.player)    
 
     def check_player_x_collisions(self):
-        ground_step_elevator = pg.sprite.spritecollideany(self.player, self.ground_step_elevator_group)
+        #ground_step_elevator = pg.sprite.spritecollideany(self.player, self.ground_step_elevator_group)
+        
         tile = pg.sprite.spritecollideany(self.player, self.tile_group)
-        qr = pg.sprite.spritecollideany(self.player, self.qr_group)
+        qr_brick = pg.sprite.spritecollideany(self.player, self.qr_brick_group)
         enemy = pg.sprite.spritecollideany(self.player, self.enemy_group)
         shell = pg.sprite.spritecollideany(self.player, self.shell_group)
         powerup = pg.sprite.spritecollideany(self.player, self.powerup_group)
         coin = pg.sprite.spritecollideany(self.player, self.static_coin_group)
 
-        if qr:
-            self.adjust_player_for_x_collisions(qr)
+        if qr_brick:
+            self.adjust_player_for_x_collisions(qr_brick)
         elif tile:
             self.adjust_player_for_x_collisions(tile)
         elif powerup:
@@ -464,10 +465,9 @@ class level(tools.State):
         enemy = pg.sprite.spritecollideany(self.player, self.enemy_group)
         shell = pg.sprite.spritecollideany(self.player, self.shell_group)
 
-        # decrease runtime delay: when player is on the ground, don't check brick and qr
         if self.player.rect.bottom < Set.GROUND_HEIGHT:
             tile = pg.sprite.spritecollideany(self.player, self.tile_group)
-            qr = pg.sprite.spritecollideany(self.player, self.qr_group)
+            qr = pg.sprite.spritecollideany(self.player, self.qr_brick_group)
             tile, qr = self.prevent_collision_conflict(tile, qr)
         else:
             tile, qr = False, False
@@ -525,7 +525,7 @@ class level(tools.State):
     def adjust_player_for_y_collisions(self, sprite):
         if self.player.rect.top > sprite.rect.top:
             if sprite.name == Set.MAP_TILE:
-                self.check_if_enemy_on_tile_box(sprite)
+                self.check_if_enemy_on_tile_qr_brick(sprite)
                 if sprite.state == Set.STAYED:
                     if self.player.big and sprite.type == Set.TYPE_NONE:
                         sprite.change_to_piece(self.dying_group)
@@ -534,7 +534,7 @@ class level(tools.State):
                             self.update_score(200, sprite, 1)
                         sprite.start_bump(self.moving_score_list)
             elif sprite.name == Set.MAP_QR:
-                self.check_if_enemy_on_tile_box(sprite)
+                self.check_if_enemy_on_tile_qr_brick(sprite)
                 if sprite.state == Set.STAYED:
                     if sprite.type == Set.TYPE_COIN:
                         self.update_score(200, sprite, 1)
@@ -549,7 +549,7 @@ class level(tools.State):
             else:
                 self.player.state = Set.WALK
                 
-    def check_if_enemy_on_tile_box(self, tile):
+    def check_if_enemy_on_tile_qr_brick(self, tile):
         tile.rect.y -= 5
         enemy = pg.sprite.spritecollideany(tile, self.enemy_group)
         if enemy:
@@ -576,7 +576,7 @@ class level(tools.State):
     def check_is_falling(self, sprite):
         sprite.rect.y += 1
         check_group = pg.sprite.Group(self.ground_step_elevator_group,
-                            self.brick_group, self.qr_group)
+                            self.brick_group, self.qr_brick_group)
         
         if pg.sprite.spritecollideany(sprite, check_group) is None:
             if (sprite.state == Set.WALK_AUTO or

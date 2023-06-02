@@ -113,7 +113,7 @@ class Enemy(pg.sprite.Sprite):
         
     def update_position(self,level):  #위치 업데이트
         self.rect.x += self.x_vel
-        self.check_x_collisions()
+        self.check_x_collisions(level)
 
         if self.in_range and self.isVertical:
             if self.rect.y < self.range_start:
@@ -143,7 +143,7 @@ class Enemy(pg.sprite.Sprite):
 
                 self.change_direction(s.LEFT)
         else:
-            collider = pg.sprite.spritecollideany(self, level.elevator_group)
+            collider = pg.sprite.spritecollideany(self, level.ground_step_elevator_group)
             if collider:
                 if self.direction == s.RIGHT:
                     self.rect.right = collider.rect.left
@@ -167,7 +167,7 @@ class Enemy(pg.sprite.Sprite):
         if self.rect.bottom >= s.GROUND_HEIGHT:
             sprite_group = level.ground_step_elevator_group
         else:
-            sprite_group = pg.sprite.Group(level.elevator_group,
+            sprite_group = pg.sprite.Group(level.ground_step_elevator_group,
                                            level.tile_group, level.qr_brick_group)
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         if sprite and sprite.name != s.MAP_SLIDER:
@@ -234,6 +234,15 @@ class Boss(Enemy):
                         (360, 65, 16, 15)]
         return frame_rect_list
     
+    def jumped_on(self):
+        self.x_vel = 0
+        self.frame_index = 2
+        x = self.rect.x
+        bottom = self.rect.bottom
+        self.rect = self.frames[self.frame_index].get_rect()
+        self.rect.x = x
+        self.rect.bottom = bottom
+        self.in_range = False
 
 def create_enemy(item, level):
     dir = s.LEFT if item['direction'] == 0 else s.RIGHT
