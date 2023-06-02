@@ -338,7 +338,7 @@ class level(tools.State):
                 self.flag.state = Set.SLIDE_DOWN
                 self.update_flag_score()
             elif checkpoint.type == Set.CHECKPOINT_TYPE_CASTLE:
-                self.player.state = set.IN_CASTLE
+                self.player.state = Set.IN_CASTLE
                 self.player.x_vel = 0
                 self.castle_timer = self.current_time
                 self.flagpole_group.add(Etc.CastleFlag(8745, 322))
@@ -383,11 +383,6 @@ class level(tools.State):
             self.adjust_player_for_x_collisions(qr)
         elif tile:
             self.adjust_player_for_x_collisions(tile)
-        elif ground_step_elevator:
-            if (ground_step_elevator.name == Set.MAP_ELEVATOR and
-                ground_step_elevator.type == Set.ELEVATOR_TYPE_HORIZONTAL):
-                return
-            self.adjust_player_for_x_collisions(ground_step_elevator)
         elif powerup:
             if powerup.type == Set.TYPE_COFFEE:
                 self.update_score(1000, powerup, 0)
@@ -400,7 +395,7 @@ class level(tools.State):
                     self.player.state = Set.SMALL_TO_BIG
                 elif self.player.big and not self.player.fire:
                     self.player.state = Set.BIG_TO_FIRE
-            elif powerup.type == Set.TYPE_STAR:
+            elif powerup.type == Set.TYPE_PAPER:
                 self.update_score(1000, powerup, 0)
                 self.player.invincible = True
             elif powerup.type == Set.TYPE_LIFE_COFFEE:
@@ -469,16 +464,16 @@ class level(tools.State):
         enemy = pg.sprite.spritecollideany(self.player, self.enemy_group)
         shell = pg.sprite.spritecollideany(self.player, self.shell_group)
 
-        # decrease runtime delay: when player is on the ground, don't check brick and box
+        # decrease runtime delay: when player is on the ground, don't check brick and qr
         if self.player.rect.bottom < Set.GROUND_HEIGHT:
             tile = pg.sprite.spritecollideany(self.player, self.tile_group)
-            box = pg.sprite.spritecollideany(self.player, self.qr_group)
-            tile, box = self.prevent_collision_conflict(tile, box)
+            qr = pg.sprite.spritecollideany(self.player, self.qr_group)
+            tile, qr = self.prevent_collision_conflict(tile, qr)
         else:
-            tile, box = False, False
+            tile, qr = False, False
 
-        if box:
-            self.adjust_player_for_y_collisions(box)
+        if qr:
+            self.adjust_player_for_y_collisions(qr)
         elif tile:
             self.adjust_player_for_y_collisions(tile)
         elif ground_step_elevator:
@@ -498,7 +493,7 @@ class level(tools.State):
                 if enemy.name == Set.BOO:
                     self.move_to_dying_group(self.enemy_group, enemy)
                 elif enemy.name == Set.BOSS:
-                    #self.enemy_group.remove(enemy)
+                    self.enemy_group.remove(enemy)
                     self.shell_group.add(enemy)
 
                 self.player.rect.bottom = enemy.rect.top
@@ -544,19 +539,12 @@ class level(tools.State):
                     if sprite.type == Set.TYPE_COIN:
                         self.update_score(200, sprite, 1)
                     sprite.start_bump(self.moving_score_list)
-            elif (sprite.name == Set.MAP_ELEVATOR and
-                sprite.type == Set.ELEVATOR_TYPE_HORIZONTAL):
-                return
-            
-            self.player.y_vel = 7
-            self.player.rect.top = sprite.rect.bottom
-            self.player.state = Set.FALL
         else:
             self.player.y_vel = 0
             self.player.rect.bottom = sprite.rect.top
             if self.player.state == Set.FLAGPOLE:
                 self.player.state = Set.WALK_AUTO
-            elif self.player.state == Set.END_OF_level_FALL:
+            elif self.player.state == Set.END_OF_LEVEL_FALL:
                 self.player.state = Set.WALK_AUTO
             else:
                 self.player.state = Set.WALK
@@ -592,8 +580,8 @@ class level(tools.State):
         
         if pg.sprite.spritecollideany(sprite, check_group) is None:
             if (sprite.state == Set.WALK_AUTO or
-                sprite.state == Set.END_OF_level_FALL):
-                sprite.state = Set.END_OF_level_FALL
+                sprite.state == Set.END_OF_LEVEL_FALL):
+                sprite.state = Set.END_OF_LEVEL_FALL
             elif (sprite.state != Set.JUMP and 
                 sprite.state != Set.FLAGPOLE and
                 not self.in_frozen_state()):
