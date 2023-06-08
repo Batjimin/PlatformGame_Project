@@ -6,7 +6,7 @@ from .. import setup, tools
 from .. import Setting as Set
 from ..components import powerup
 
-class Player(pg.sprite.Sprite):
+class Player(pg.sprite.Sprite): 
     def __init__(self, player_name):
         pg.sprite.Sprite.__init__(self)
         self.player_name = player_name
@@ -27,7 +27,7 @@ class Player(pg.sprite.Sprite):
         self.image = self.right_frames[self.frame_index]
         self.rect = self.image.get_rect()
         
-    def restart(self):
+    def restart(self):  # 처음부터 다시 시작
         if self.dead:
             self.dead = False
             self.big = False
@@ -37,13 +37,13 @@ class Player(pg.sprite.Sprite):
             self.left_frames = self.small_normal_frames[1]
         self.state = Set.STAND
         
-    def load_data(self):
+    def load_data(self):    # student.json 데이터 가져옴
         player_file = 'student'+'.json'
         file_path = os.path.join('src', 'data', player_file)
         f = open(file_path)
         self.player_data = json.load(f)
         
-    def setup_timer(self):
+    def setup_timer(self): # 타이머 설정
         self.walking_timer = 0
         self.death_timer = 0
         self.flagpole_timer = 0
@@ -52,7 +52,7 @@ class Player(pg.sprite.Sprite):
         self.invincible_timer = 0
         self.last_fireball_time = 0
 
-    def setup_state(self):
+    def setup_state(self):  # 플레이어 상태 설정
         self.facing_right = True
         self.allow_jump = True
         self.allow_fireball = True
@@ -63,7 +63,7 @@ class Player(pg.sprite.Sprite):
         self.invincible = False
         self.crouching = False
 
-    def setup_speed(self):
+    def setup_speed(self):  # 플레이어 속도 설정
         speed = self.player_data[Set.PLAYER_SPEED]
         self.x_vel = 0
         self.y_vel = 0
@@ -79,7 +79,7 @@ class Player(pg.sprite.Sprite):
         self.max_x_vel = self.max_walk_vel
         self.x_accel = self.walk_accel
         
-    def load_images(self):
+    def load_images(self): 
         sheet = setup.GFX['chara_images']
         frames_list = self.player_data[Set.PLAYER_FRAMES]
 
@@ -128,42 +128,42 @@ class Player(pg.sprite.Sprite):
         self.left_frames = self.small_normal_frames[1]
 
 
-    def update(self, keys, game_info, fire_group):
+    def update(self, keys, game_info, fire_group):  # 매개변수로 정보로 플레이어 상태 업데이트
         self.current_time = game_info[Set.CURRENT_TIME]
         self.handle_state(keys, fire_group)
         self.check_if_hurt_invincible()
         self.check_if_invincible()
         self.animation()
 
-    def handle_state(self, keys, fire_group):
-        if self.state == Set.STAND:
+    def handle_state(self, keys, fire_group):   # 플레이어 상태에 따라 다른 동작
+        if self.state == Set.STAND:     # 서 있는 상태
             self.standing(keys, fire_group)
-        elif self.state == Set.WALK:
+        elif self.state == Set.WALK:    # 걷고 있는 상태
             self.walking(keys, fire_group)
-        elif self.state == Set.JUMP:
+        elif self.state == Set.JUMP:    # 점프 상태
             self.jumping(keys, fire_group)
-        elif self.state == Set.FALL:
+        elif self.state == Set.FALL:    # 떨어지는 상태
             self.falling(keys, fire_group)
-        elif self.state == Set.DEATH_JUMP:
+        elif self.state == Set.DEATH_JUMP:  # 밟아서 죽이는 상태
             self.jumping_to_death()
-        elif self.state == Set.FLAGPOLE:
+        elif self.state == Set.FLAGPOLE:    # 깃발 잡는 상태
             self.flag_pole_sliding()
-        elif self.state == Set.WALK_AUTO:
+        elif self.state == Set.WALK_AUTO:   # 자동으로 걷는 상태 (깃발 잡고 이후)
             self.walking_auto()
-        elif self.state == Set.END_OF_LEVEL_FALL: #Setting에 정의되지 않음.
+        elif self.state == Set.END_OF_LEVEL_FALL: 
             self.y_vel += self.gravity
-        elif self.state == Set.IN_CASTLE:
+        elif self.state == Set.IN_CASTLE:   
             self.frame_index = 0
-        elif self.state == Set.SMALL_TO_BIG:
+        elif self.state == Set.SMALL_TO_BIG:    # 크기 커지는 상태
             self.changing_to_big()
-        elif self.state == Set.BIG_TO_SMALL:
+        elif self.state == Set.BIG_TO_SMALL:    # 크기 작아지는 상태
             self.changing_to_small()
-        elif self.state == Set.BIG_TO_FIRE:
+        elif self.state == Set.BIG_TO_FIRE:     # 큰 상태 -> 파이어 볼
             self.changing_to_fire()
-        elif self.state == Set.DOWN_ELEVATOR:
+        elif self.state == Set.DOWN_ELEVATOR:   # 엘리베이터 하강 상태
             self.y_vel = 1
             self.rect.y += self.y_vel
-        elif self.state == Set.UP_ELEVATOR:
+        elif self.state == Set.UP_ELEVATOR:     # 엘리베이터 상승 상태
             self.y_vel = -1
             self.rect.y += self.y_vel
             if self.rect.bottom < self.up_elevator_y:
@@ -474,12 +474,6 @@ class Player(pg.sprite.Sprite):
                 frame, frame_index = frames[size_list[self.change_index]]
                 self.set_player_image(frame, frame_index)
             self.change_index += 1
-
-    def changing_to_fire(self):
-    {
-        
-
-    }
 
     def set_player_image(self, frames, frame_index):
         self.frame_index = frame_index
