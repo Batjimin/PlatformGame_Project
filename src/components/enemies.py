@@ -6,11 +6,11 @@ from .. import Setting as s
 ENEMY_SPEED = 1
 
 
-class Enemy(pg.sprite.Sprite):
-    def __init__(self):
+class Enemy(pg.sprite.Sprite):  # 몬스터 공통 클래스
+    def __init__(self):         # 초기화
         pg.sprite.Sprite.__init__(self)
     
-    def setup_enemy(self, x, y, direction, name, sheet, frame_rect_list,        # 몬스터 세팅
+    def setup_enemy(self, x, y, direction, name, sheet, frame_rect_list,        # 몬스터 기본값 세팅 (매개 변수: 세팅값)
                         in_range, range_start, range_end, isVertical=False):
         self.frames = []
         self.frame_index = 0
@@ -44,26 +44,24 @@ class Enemy(pg.sprite.Sprite):
             self.x_vel = ENEMY_SPEED *-1 if self.direction == s.LEFT else ENEMY_SPEED
             self.y_vel = 0
             
-    def update(self, game_info, level):
+    def update(self, game_info, level): # 상태 업데이트
         self.current_time = game_info[s.CURRENT_TIME]
         self.handle_state()
         self.animation()
         self.update_position(level)
 
-    def handle_state(self):             # 상태 (추가해도 됨)
-        if (self.state == s.WALK or
+    def handle_state(self): # 몬스터 상태에 따라 다른 함수 적용
+        if (self.state == s.WALK or     # 걷거나 날고 있는 상태
             self.state == s.FLY):
             self.walking()
-        elif self.state == s.FALL:
+        elif self.state == s.FALL:      # 떨어지는 상태
             self.falling()
-        elif self.state == s.DEATH_JUMP:
+        elif self.state == s.DEATH_JUMP:    # 플레이어에게 밟혀 죽는 상태
             self.death_jumping()
-        elif self.state == s.JUMPED_ON:
+        elif self.state == s.JUMPED_ON: # 점프하는 상태
             self.jumped_on()
-        elif self.state == s.REVEAL:
-            self.revealing()
-    
-    def walking(self):
+
+    def walking(self):  # 걷고 있는 상태 프레임 조절
         if (self.current_time - self.animate_timer) > 125:
             if self.direction == s.RIGHT:
                 if self.frame_index == 4:
@@ -77,11 +75,11 @@ class Enemy(pg.sprite.Sprite):
                     self.frame_index = 0
             self.animate_timer = self.current_time
     
-    def falling(self):
+    def falling(self): # 떨어지는 경우 y좌표 조절
         if self.y_vel < 10:
             self.y_vel += self.gravity
     
-    def death_jumping(self):
+    def death_jumping(self):    # 플레이어의 점프에 죽는 경우 Kill 처리
         self.rect.y += self.y_vel
         self.rect.x += self.x_vel
         self.y_vel += self.gravity
@@ -89,7 +87,7 @@ class Enemy(pg.sprite.Sprite):
             self.kill()
     
 
-    def start_death_jump(self, direction):
+    def start_death_jump(self, direction):  
         self.y_vel = -8
         self.x_vel = 2 if direction == s.RIGHT else -2
         self.gravity = .5
@@ -99,19 +97,16 @@ class Enemy(pg.sprite.Sprite):
     def jumped_on(self):
         pass
     
-    def revealing(self):
-        pass
+    #def sliding(self):        
+       # if self.direction == s.RIGHT:
+       #     self.x_vel = 10
+       # else:
+       #     self.x_vel = -10
     
-    def sliding(self):        
-        if self.direction == s.RIGHT:
-            self.x_vel = 10
-        else:
-            self.x_vel = -10
-    
-    def animation(self):
+    def animation(self):    # 애니메이션 프레임 관련
         self.image = self.frames[self.frame_index]
         
-    def update_position(self,level):  #위치 업데이트
+    def update_position(self,level):  # 위치 업데이트, 갱신
         self.rect.x += self.x_vel
         self.check_x_collisions(level)
 
@@ -133,7 +128,7 @@ class Enemy(pg.sprite.Sprite):
         elif self.rect.y > (level.viewport.bottom):
             self.kill()
         
-    def check_x_collisions(self, level):
+    def check_x_collisions(self, level):    # x축(가로) 충돌 여부 확인
         if self.in_range and not self.isVertical:
             if self.rect.x < self.range_start:
                 self.rect.x = self.range_start
@@ -152,7 +147,7 @@ class Enemy(pg.sprite.Sprite):
                     self.rect.left = collider.rect.right
                     self.change_direction(s.RIGHT)
 
-    def change_direction(self, direction):
+    def change_direction(self, direction):  # 방향 전환
         self.direction = direction
         if self.direction == s.RIGHT:
             self.x_vel = ENEMY_SPEED
@@ -163,7 +158,7 @@ class Enemy(pg.sprite.Sprite):
             if self.state == s.WALK or self.state == s.FLY:
                 self.frame_index = 0
 
-    def check_y_collisions(self, level):
+    def check_y_collisions(self, level):    # y축(세로) 충돌 여부 확인
         if self.rect.bottom >= s.GROUND_HEIGHT:
             sprite_group = level.ground_step_elevator_group
         else:
@@ -179,7 +174,7 @@ class Enemy(pg.sprite.Sprite):
         
         
 
-class Boo(Enemy):
+class Boo(Enemy):   # [일반 몬스터] 부(외대 마스코트) 클래스
     def __init__(self, x, y, direction, color, in_range,
                  range_start, range_end, name=s.BOO):
         Enemy.__init__(self)
@@ -200,7 +195,7 @@ class Boo(Enemy):
                                (61, 0, 16, 16)]
         return frame_rect_list
 
-    def jumped_on(self):
+    def jumped_on(self):   
         self.x_vel = 0
         self.frame_index = 2
         if self.death_timer == 0:
@@ -210,7 +205,7 @@ class Boo(Enemy):
 
 
 
-class Boss(Enemy):
+class Boss(Enemy):  # [보스] 보스 클래스
     def __init__(self, x, y, direction, color, in_range,
                 range_start, range_end, name=s.BOSS):
         Enemy.__init__(self)
@@ -244,7 +239,7 @@ class Boss(Enemy):
         self.rect.bottom = bottom
         self.in_range = False
 
-def create_enemy(item, level):
+def create_enemy(item, level): # 몬스터 생성 함수
     dir = s.LEFT if item['direction'] == 0 else s.RIGHT
     color = item[s.COLOR]
     if s.ENEMY_RANGE in item:
