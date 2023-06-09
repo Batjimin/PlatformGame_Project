@@ -22,7 +22,7 @@ class Coin(pg.sprite.Sprite):
         self.score_group = score_group
 
     def load_frames(self):
-        sheet = setup.GFX[s.ITEM_IMAGE] #이미지 시트 가져오기
+        sheet = setup.GFX[s.ITEM_SHEET] #이미지 시트 가져오기
         frame_rect_list = [(52, 113, 8, 14), (4, 113, 8, 14), #애니메이션의 각 프레임의 영역을 정의
                            (20, 113, 8, 14), (36, 113, 8, 14)] #프레임의 좌표와 크기 정보를 담고 있는 리스트. 각각의 튜플은 (x, y, width, height) 형식
         for frame_rect in frame_rect_list: 
@@ -64,7 +64,7 @@ class StaticCoin(pg.sprite.Sprite): # 정지된 코인
         self.animation_timer = 0
 
     def load_frames(self):  # 코인 클래스의 동명 함수와 동일한 역할
-        sheet = setup.GFX[s.ITEM_IMAGE]
+        sheet = setup.GFX[s.ITEM_SHEET]
         frame_rect_list = [(3, 98, 9, 13), (19, 98, 9, 13),
                         (35, 98, 9, 13), (51, 98, 9, 13)]
         for frame_rect in frame_rect_list:
@@ -98,7 +98,7 @@ class FlashCoin(pg.sprite.Sprite):  # 깜빡이는 동전
         self.animation_timer = 0
         
     def load_frames(self):
-        sheet = setup.GFX[s.ITEM_IMAGE]
+        sheet = setup.GFX[s.ITEM_SHEET]
         frame_rect_list = [(1, 160, 5, 8), (9, 160, 5, 8),
                         (17, 160, 5, 8), (9, 160, 5, 8)]
         for frame_rect in frame_rect_list:

@@ -53,7 +53,7 @@ class Menu(tools.State):
         
     def setup_cursor(self):
         self.cursor = pg.sprite.Sprite()
-        self.cursor.image = tools.get_image(setup.GFX[Set.ITEM_IMAGE], 24, 160, 8, 8, Set.BLACK, 3)
+        self.cursor.image = tools.get_image(setup.GFX[Set.ITEM_SHEET], 24, 160, 8, 8, Set.BLACK, 3)
         rect = self.cursor.image.get_rect()
         rect.x, rect.y = (220, 358)
         self.cursor.rect = rect

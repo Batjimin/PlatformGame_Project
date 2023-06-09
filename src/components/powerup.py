@@ -61,7 +61,7 @@ class Powerup(Etc.Stuff):
 
 class Coffee(Powerup):
     def __init__(self, x, y):
-        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
+        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_SHEET],
                          [(0, 0, 16, 16)], Set.SIZE_MULTIPLIER)
         self.type = Set.TYPE_COFFEE
         self.speed = 2
@@ -87,7 +87,7 @@ class HOT6(Powerup):  # 획득시 파이어 볼 가능
     def __init__(self, x, y):
         frame_rect_list = [(0, 32, 16, 16), (16, 32, 16, 16),
                            (32, 32, 16, 16), (48, 32, 16, 16)]
-        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
+        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_SHEET],
                          frame_rect_list, Set.SIZE_MULTIPLIER)
         self.type = Set.TYPE_HOT6
 
@@ -114,7 +114,7 @@ class Paper(Powerup):
     def __init__(self, x, y):
         frame_rect_list = [(1, 48, 15, 16), (17, 48, 15, 16),
                            (33, 48, 15, 16), (49, 48, 15, 16)]
-        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
+        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_SHEET],
                          frame_rect_list, Set.SIZE_MULTIPLIER)
         self.type = Set.TYPE_PAPER
         self.gravity = .4
@@ -163,7 +163,7 @@ class FIREBALL(Powerup): # 파이어 볼 (구체)
                            (96, 152, 8, 8), (104, 152, 8, 8),
                            (112, 144, 16, 16), (112, 160, 16, 16),
                            (112, 176, 16, 16)]
-        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_IMAGE],
+        Powerup.__init__(self, x, y, setup.GFX[Set.ITEM_SHEET],
                          frame_rect_list, Set.SIZE_MULTIPLIER)
         self.type = Set.TYPE_REDBULL
         self.y_vel = 10

@@ -179,7 +179,7 @@ class Boo(Enemy):   # [일반 몬스터] 부(외대 마스코트) 클래스
                  range_start, range_end, name=s.BOO):
         Enemy.__init__(self)
         frame_rect_list = self.get_frame_rect(color)
-        self.setup_enemy(x, y, direction, name, setup.GFX[s.ENEMY_IMAGE],
+        self.setup_enemy(x, y, direction, name, setup.GFX[s.ENEMY_SHEET],
                          frame_rect_list, in_range, range_start, range_end)
         
         self.frames.append(pg.transform.flip(self.frames[2], False, True))
@@ -210,7 +210,7 @@ class Boss(Enemy):  # [보스] 보스 클래스
                 range_start, range_end, name=s.BOSS):
         Enemy.__init__(self)
         frame_rect_list = self.get_frame_rect(color)
-        self.setup_enemy(x, y, direction, name, setup.GFX[s.ENEMY_IMAGE],
+        self.setup_enemy(x, y, direction, name, setup.GFX[s.ENEMY_SHEET],
                     frame_rect_list, in_range, range_start, range_end)
     
         self.frames.append(pg.transform.flip(self.frames[2], False, True))

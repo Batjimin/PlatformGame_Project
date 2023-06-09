@@ -154,8 +154,8 @@ GROUND_HEIGHT = SCREEN_HEIGHT - 62
 TIME_LIMIT = 300
 
 #이미지 시트
-ITEM_IMAGE = 'item_images'
-ENEMY_IMAGE = 'enemy_images'
+ITEM_SHEET = 'item_images'
+ENEMY_SHEET = 'enemy_images'
 
 DEBUG = False
 DEBUG_START_X = 110
