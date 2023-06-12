@@ -1,5 +1,5 @@
 {
-    "image_name" : "background_main",
+    "image_name":"level_1",
     "maps":[
         {"start_x":   0, "end_x": 9086, "player_x": 110, "player_y":538},
         {"start_x":9090, "end_x": 9890, "player_x":  80, "player_y": 60},
@@ -11,7 +11,7 @@
         {"x":3819, "y":538, "width":2735, "height":60},
         {"x":6647, "y":538, "width":3250, "height":60}
     ],
-    "pipe":[
+    "elevator":[
         {"x":1201, "y":451, "width": 83, "height": 84, "type":0},
         {"x":1629, "y":409, "width": 83, "height":126, "type":0},
         {"x":1972, "y":366, "width": 83, "height":170, "type":0},
@@ -76,10 +76,9 @@
         {"x":9494, "y":198},
         {"x":9538, "y":198}
     ],
-    "brick":[
+    "tile":[
         {"x": 858, "y":365, "type":0},
         {"x": 944, "y":365, "type":0},
-        {"x":1030, "y":365, "type":0},
         {"x":3299, "y":365, "type":0},
         {"x":3385, "y":365, "type":0},
         
@@ -88,7 +87,7 @@
         {"x":3473, "y":193, "type":0},
         {"x":3516, "y":193, "type":0},
         {"x":3559, "y":193, "type":0},
-        {"x":3602, "y":193, "type":0},
+
         {"x":3645, "y":193, "type":0},
         {"x":3688, "y":193, "type":0},
         {"x":3731, "y":193, "type":0},
@@ -113,13 +112,13 @@
         {"x":7245, "y":365, "type":0},
         {"x":7331, "y":365, "type":0},
 
-        {"x":9090, "y": 64, "type":0, "color":1,"brick_num":11, "direction":1},
-        {"x":9310, "y": 64, "type":0, "color":1,"brick_num":7, "direction":0},
-        {"x":9310, "y":406, "type":0, "color":1,"brick_num":7, "direction":0},
-        {"x":9310, "y":449, "type":0, "color":1,"brick_num":7, "direction":0},
-        {"x":9310, "y":492, "type":0, "color":1,"brick_num":7, "direction":0}
+        {"x":9090, "y": 64, "type":0, "color":1,"tile_num":11, "direction":1},
+        {"x":9310, "y": 64, "type":0, "color":1,"tile_num":7, "direction":0},
+        {"x":9310, "y":406, "type":0, "color":1,"tile_num":7, "direction":0},
+        {"x":9310, "y":449, "type":0, "color":1,"tile_num":7, "direction":0},
+        {"x":9310, "y":492, "type":0, "color":1,"tile_num":7, "direction":0}
     ],
-    "box":[
+    "QR_brick":[
         {"x": 685, "y":365, "type":1},
         {"x": 901, "y":365, "type":3},
         {"x": 987, "y":365, "type":1},
