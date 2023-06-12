@@ -37,8 +37,8 @@ class Level(tools.State):
         
     # 맵 설계 불러오기. src/data/maps/ level_${단계}.json
     def load_map(self):
-        map_file = 'stage' + str(self.game_info[Set.LEVEL_NUM]) + '.json'
-        file_path = os.path.join('src', 'data', map_file)
+        map_file = 'level_' + str(self.game_info[Set.LEVEL_NUM]) + '.json'
+        file_path = os.path.join('src', 'data', 'maps', map_file)
         f = open(file_path)
         self.map_data = json.load(f)
         f.close()

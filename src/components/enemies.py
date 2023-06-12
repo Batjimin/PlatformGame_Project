@@ -5,6 +5,40 @@ from .. import Setting as s
 
 ENEMY_SPEED = 1
 
+def create_enemy(item, level):  # 몬스터 생성 함수
+    dir = s.LEFT if item['direction'] == 0 else s.RIGHT
+    color = item[s.COLOR]
+    if s.ENEMY_RANGE in item:
+        in_range = item[s.ENEMY_RANGE]
+        range_start = item['range_start']
+        range_end = item['range_end']
+    else:
+        in_range = False
+        range_start = range_end = 0
+
+    if item['type'] == s.ENEMY_TYPE_BOO:
+        sprite = Boo(item['x'], item['y'], dir, color,
+                     in_range, range_start, range_end)
+    elif item['type'] == s.ENEMY_TYPE_PROF:
+        sprite = Prof(item['x'], item['y'], dir, color,
+                      in_range, range_start, range_end)
+    elif item['type'] == s.ENEMY_TYPE_FLY_PROF:
+        isVertical = False if item['is_vertical'] == 0 else True
+        sprite = FlyProf(item['x'], item['y'], dir, color,
+                         in_range, range_start, range_end, isVertical)
+    elif item['type'] == s.ENEMY_TYPE_FIRE_PROF:
+        sprite = FireProf(item['x'], item['y'], dir, color,
+                          in_range, range_start, range_end, level)
+    elif item['type'] == s.ENEMY_TYPE_FIRESTICK:
+        sprite = []
+        num = item['num']
+        center_x, center_y = item['x'], item['y']
+        for i in range(num):
+            radius = i * 21  # 8 * 2.69 = 21
+            sprite.append(FireStick(center_x, center_y, dir, color,
+                                    radius))
+    return sprite
+
 
 class Enemy(pg.sprite.Sprite):  # 몬스터 공통 클래스
     def __init__(self):         # 초기화
@@ -411,37 +445,3 @@ class FireStick(pg.sprite.Sprite):
         radian = math.radians(self.angle)
         self.rect.x = self.center_x + math.sin(radian) * self.radius
         self.rect.y = self.center_y + math.cos(radian) * self.radius
-
-def create_enemy(item, level):  # 몬스터 생성 함수
-    dir = s.LEFT if item['direction'] == 0 else s.RIGHT
-    color = item[s.COLOR]
-    if s.ENEMY_RANGE in item:
-        in_range = item[s.ENEMY_RANGE]
-        range_start = item['range_start']
-        range_end = item['range_end']
-    else:
-        in_range = False
-        range_start = range_end = 0
-
-    if item['type'] == s.ENEMY_TYPE_BOO:
-        sprite = BOO(item['x'], item['y'], dir, color,
-                     in_range, range_start, range_end)
-    elif item['type'] == s.ENEMY_TYPE_PROF:
-        sprite = Prof(item['x'], item['y'], dir, color,
-                      in_range, range_start, range_end)
-    elif item['type'] == s.ENEMY_TYPE_FLY_PROF:
-        isVertical = False if item['is_vertical'] == 0 else True
-        sprite = FlyProf(item['x'], item['y'], dir, color,
-                         in_range, range_start, range_end, isVertical)
-    elif item['type'] == s.ENEMY_TYPE_FIRE_PROF:
-        sprite = FireProf(item['x'], item['y'], dir, color,
-                          in_range, range_start, range_end, level)
-    elif item['type'] == s.ENEMY_TYPE_FIRESTICK:
-        sprite = []
-        num = item['num']
-        center_x, center_y = item['x'], item['y']
-        for i in range(num):
-            radius = i * 21  # 8 * 2.69 = 21
-            sprite.append(FireStick(center_x, center_y, dir, color,
-                                    radius))
-    return sprite
