@@ -7,4 +7,4 @@ pg.event.set_allowed([pg.KEYDOWN, pg.KEYUP, pg.QUIT])
 SCREEN = pg.display.set_mode(Set.SCREEN_SIZE)
 SCREEN_RECT = SCREEN.get_rect()
 
-GFX = tools.load_gfx(os.path.join("resource","Images"))
+GFX = tools.load_gfx(os.path.join("resources", "graphics"))

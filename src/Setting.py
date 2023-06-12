@@ -1,6 +1,10 @@
+DEBUG = False
+DEBUG_START_X = 110
+DEBUG_START_Y = 538
+
 # 스크린 크기
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 700
+SCREEN_HEIGHT = 1000
 SCREEN_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
 
 #참고용 RGB값. 사용하고 싶은 색 있으면 여기에 추가.
@@ -26,14 +30,17 @@ COLOR = 'color'
 COLOR_TYPE_ORANGE = 0
 COLOR_TYPE_GREEN = 1
 COLOR_TYPE_RED = 2
-COLOR_TYPE_BROWN = 3
 
 #게임 시스템
-MENU = 'menu'
-LOADING = 'loading'
+MAIN_MENU = 'main menu'
+LOAD_SCREEN = 'load screen'
 TIME_OUT = 'time out'
 GAME_OVER = 'game over'
 LEVEL = 'level'
+
+# 메인 메뉴 커서 상태
+PLAYER1 = '1 PLAYER GAME'
+PLAYER2 = '2 PLAYER GAME'
 
 #게임 요소
 TOTAL_COIN = 'total coin'
@@ -41,50 +48,58 @@ SCORE = 'score'
 TOP_SCORE = 'top score'
 ATTENDENCE = 'attendence' #생명 = 출석
 CURRENT_TIME = 'current time'
-YOUR_NAME = 'player name'
-PLAYER = 'player'
 LEVEL_NUM = 'level num'
+PLAYER_NAME = 'player name'
+PLAYER_1 = 'player1'
+PLAYER_2 = 'player2'
 
-MAP_STEP = 'step'
-MAP_COIN = "coin"
 MAP_IMAGE = 'image_name'
-MAP_INDEX = 'map_index'
 MAP_MAPS = 'maps'
 SUB_MAP = 'sub_map'
 MAP_GROUND = 'ground'
-MAP_SLIDER = 'slider'
-MAP_ELEVATOR = 'elevator'     # 엘리베이터 (파이프와 같은 역할)
+MAP_ELEVATOR = 'elevator'
 ELEVATOR_TYPE_NONE = 0
-ELEVATOR_TYPE_IN = 1          
-IN_CASTLE = 'in castle'
-DOWN_TO_ELEVATOR = 'down to elevator'
-UP_OUT_ELEVATOR = 'up out of elevator'
-MAP_TILE = 'tile'             # QR코드 타일
+ELEVATOR_TYPE_IN = 1                # 수직형
+ELEVATOR_TYPE_HORIZONTAL = 2        # 수평형
+MAP_STEP = 'step'
+MAP_TILE = 'tile'
+TILE_NUM = 'tile_num'
+TYPE_NONE = 0
+TYPE_COIN = 1
+TYPE_STAR = 2
+MAP_QR_BRICK = 'QR_brick'
+TYPE_COFFEE = 3
+TYPE_HOT6 = 4
+TYPE_FIREBALL = 5
+TYPE_LIFECOFFEE = 6
+MAP_ENEMY = 'enemy'
+ENEMY_TYPE_BOO = 0
+ENEMY_TYPE_PROF = 1
+ENEMY_TYPE_FLY_PROF = 2
+ENEMY_TYPE_PIRANHA = 3
+ENEMY_TYPE_FIRESTICK = 4
+ENEMY_TYPE_FIRE_PROF = 5
+ENEMY_RANGE = 'range'
+MAP_CHECKPOINT = 'checkpoint'
+ENEMY_GROUPID = 'enemy_groupid'
+MAP_INDEX = 'map_index'
+CHECKPOINT_TYPE_ENEMY = 0
+CHECKPOINT_TYPE_FLAG = 1
+CHECKPOINT_TYPE_END = 2
+CHECKPOINT_TYPE_COFFEE = 3
+CHECKPOINT_TYPE_ELEVATOR = 4        
+CHECKPOINT_TYPE_ELEVATOR_UP = 5     
+CHECKPOINT_TYPE_MAP = 6         
+CHECKPOINT_TYPE_BOSS = 7     
 MAP_FLAGPOLE = 'flagpole'
 FLAGPOLE_TYPE_FLAG = 0
 FLAGPOLE_TYPE_POLE = 1
 FLAGPOLE_TYPE_TOP = 2
-TILE_NUM = 'tile_num'
-TYPE_NONE = 0
-TYPE_COIN = 1
-TYPE_PAPER = 2          # 족보(임시)
-MAP_QR     = 'QR'
-TYPE_COFFEE         = 3          # 커피     (성장 버프)
-TYPE_HOT6           = 4          # 핫식스   (파이어 볼)
-TYPE_FIREBALL       = 5
-TYPE_LIFE_COFFEE    = 6          # 커피     (생명(출석)추가 커피 )       
-TYPE_REDBULL        = 7          # 레드불   (fly)    
-
-MAP_ENEMY   = 'enemy'
-ENEMY_RANGE = 'range'
-ENEMY_GROUPID = 'enemy_groupid'
-
+MAP_SLIDER = 'slider'
 HORIZONTAL = 0
 VERTICAL = 1
 VELOCITY = 'velocity'
-
-ENEMY_TYPE_BOO            = 0   # 부 형태의 몬스터
-ENEMY_TYPE_BOSS           = 1   # 과제 형태의 몬스터
+MAP_COIN = 'coin'
 
 #벽돌상태
 STAYED = 'stayed'
@@ -92,7 +107,7 @@ BUMPED = 'bumped'
 OPENED = 'opened'
 
 #플레이어 상태. auto walking은 깃발 도달 시 사용.
-STAND = 'standing'
+STOPPED = 'stopped'
 WALK = 'walk'
 JUMP = 'jump'
 FALL = 'fall'
@@ -103,10 +118,10 @@ BIG_TO_FLY = "big to fly"
 BIG_TO_SMALL = 'big to small'
 FLAGPOLE = 'flag pole'
 WALK_AUTO = 'walk auto'
-IN_CASTLE = 'in castle'
+END_OF_LEVEL_FALL = 'end of level fall'
+GOAL_IN = 'in goal'
 DOWN_ELEVATOR = 'elevator down'
 UP_ELEVATOR = 'elevator up'
-END_OF_LEVEL_FALL = 'end of level fall'
 
 #플레이어 이동. 중력 조절 필요.
 PLAYER_SPEED = 'speed'
@@ -114,21 +129,28 @@ WALK_ACCEL = 'walk_accel'
 RUN_ACCEL = 'run_accel'
 JUMP_VEL = 'jump_velocity'
 MAX_Y_VEL = 'max_y_velocity'
-MAX_RUN = 'max_run'
-MAX_WALK = 'max_walk'
+MAX_RUN_SPEED = 'max_run_speed'
+MAX_WALK_SPEED = 'max_walk_speed'
 SMALL_TURNAROUND = .35
 JUMP_GRAVITY = .31
 GRAVITY = 1.00
 
 # 적 목록
 BOO = 'boo'
-BOSS = 'boss'
+PROF = 'prof'
+FLY_PROF = 'fly prof'
+FIRE_PROF = 'fire prof'
+FIRE = 'fire'
+FIRESTICK = 'firestick'
 
-#부. 상태명 변경할 수도 있음.
+#부. 
 LEFT = 'left'
 RIGHT = 'right'
 JUMPED_ON = 'jumped on'
 DEATH_JUMP = 'death jump'
+
+#PROF
+WORK_SLIDE = 'work slide'
 
 #깃발
 TOP_OF_POLE = 'pole top'
@@ -137,10 +159,9 @@ BOTTOM_OF_POLE = 'pole bottom'
 
 #사출기
 FLYING = 'flying'
-BOUNCING = 'bouncing'
 EXPLODING = 'exploding'
 
-# 아이템 상태
+# 커피 상태
 REVEAL = 'reveal'
 SLIDE = 'slide'
 
@@ -151,29 +172,14 @@ BACKGROUND_MULTIPLER = 2.679
 GROUND_HEIGHT = SCREEN_HEIGHT - 62
 
 # 제한 시간
-TIME_LIMIT = 300
+GAME_TIME_OUT = 201
 
 #이미지 시트
 ITEM_SHEET = 'item_images'
-ENEMY_SHEET = 'enemy_images'
-
-DEBUG = False
-DEBUG_START_X = 110
-DEBUG_START_Y = 538
+ENEMY_SHEET = 'enemies'
 
 #프레임
 PLAYER_FRAMES = 'image_frames'
 RIGHT_SMALL_NORMAL = 'right_small_normal'
 RIGHT_BIG_NORMAL = 'right_big_normal'
-RIGHT_BIG_FIRE = 'right_big_fire'
-
-# 체크 요소
-MAP_CHECKPOINT = 'checkpoint'
-CHECKPOINT_TYPE_ENEMY = 0
-CHECKPOINT_TYPE_FLAG = 1
-CHECKPOINT_TYPE_CASTLE = 2
-CHECKPOINT_TYPE_COFFEE = 3
-CHECKPOINT_TYPE_ELEVATOR = 4       
-CHECKPOINT_TYPE_ELEVATOR_UP = 5    
-CHECKPOINT_TYPE_MAP = 6         
-CHECKPOINT_TYPE_BOSS = 7        
+RIGHT_BIG_FIRE = 'right_big_fire'    
