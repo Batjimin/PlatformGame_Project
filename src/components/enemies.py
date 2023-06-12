@@ -29,14 +29,14 @@ class Enemy(pg.sprite.Sprite):  # 몬스터 공통 클래스
         self.range_start = range_start
         self.range_end = range_end
         self.isVertical = isVertical
-        self.set_velocity()
+        self.s_velocity()
         self.death_timer = 0
     
     def load_frames(self, sheet, frame_rect_list):
         for frame_rect in frame_rect_list:
             self.frames.append(tools.get_image(sheet, *frame_rect, s.BLACK, s.SIZE_MULTIPLIER))
 
-    def set_velocity(self): # 몬스터 속도
+    def s_velocity(self): # 몬스터 속도
         if self.isVertical:
             self.x_vel = 0
             self.y_vel = ENEMY_SPEED
@@ -56,10 +56,15 @@ class Enemy(pg.sprite.Sprite):  # 몬스터 공통 클래스
             self.walking()
         elif self.state == s.FALL:      # 떨어지는 상태
             self.falling()
+        elif self.state == s.JUMPED_ON:
+            self.jumped_on()
         elif self.state == s.DEATH_JUMP:    # 플레이어에게 밟혀 죽는 상태
             self.death_jumping()
-        elif self.state == s.JUMPED_ON: # 점프하는 상태
-            self.jumped_on()
+        elif self.state == s.WORK_SLIDE:
+            self.shell_sliding()
+        elif self.state == s.REVEAL:
+            self.revealing()
+
 
     def walking(self):  # 걷고 있는 상태 프레임 조절
         if (self.current_time - self.animate_timer) > 125:
@@ -97,11 +102,14 @@ class Enemy(pg.sprite.Sprite):  # 몬스터 공통 클래스
     def jumped_on(self):
         pass
     
-    #def sliding(self):        
-       # if self.direction == s.RIGHT:
-       #     self.x_vel = 10
-       # else:
-       #     self.x_vel = -10
+    def shell_sliding(self):
+        if self.direction == s.RIGHT:
+            self.x_vel = 10
+        else:
+            self.x_vel = -10
+    
+    def revealing(self):
+        pass
     
     def animation(self):    # 애니메이션 프레임 관련
         self.image = self.frames[self.frame_index]
@@ -121,7 +129,7 @@ class Enemy(pg.sprite.Sprite):  # 몬스터 공통 클래스
         self.rect.y += self.y_vel
         if (self.state != s.DEATH_JUMP and 
             self.state != s.FLY):
-            self.check_y_collisions()
+            self.check_y_collisions(level)
             
         if self.rect.x <= 0:
             self.kill()
@@ -146,6 +154,13 @@ class Enemy(pg.sprite.Sprite):  # 몬스터 공통 클래스
                 elif self.direction == s.LEFT:
                     self.rect.left = collider.rect.right
                     self.change_direction(s.RIGHT)
+                    
+        if self.state == s.WORK_SLIDE:
+            enemy = pg.sprite.spritecollideany(self, level.enemy_group)
+            if enemy:
+                level.update_score(100, enemy, 0)
+                level.move_to_dying_group(level.enemy_group, enemy)
+                enemy.start_death_jump(self.direction)
 
     def change_direction(self, direction):  # 방향 전환
         self.direction = direction
@@ -163,7 +178,7 @@ class Enemy(pg.sprite.Sprite):  # 몬스터 공통 클래스
             sprite_group = level.ground_step_elevator_group
         else:
             sprite_group = pg.sprite.Group(level.ground_step_elevator_group,
-                                           level.tile_group, level.qr_brick_group)
+                                           level.tile_group, level.QR_brick_group)
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         if sprite and sprite.name != s.MAP_SLIDER:
             if self.rect.top <= sprite.rect.top:
@@ -203,16 +218,14 @@ class Boo(Enemy):   # [일반 몬스터] 부(외대 마스코트) 클래스
         elif (self.current_time - self.death_timer) > 500:
             self.kill()
 
-
-
-class Boss(Enemy):  # [보스] 보스 클래스
+class Prof(Enemy):
     def __init__(self, x, y, direction, color, in_range,
-                range_start, range_end, name=s.BOSS):
+                 range_start, range_end, name=s.PROF):
         Enemy.__init__(self)
         frame_rect_list = self.get_frame_rect(color)
         self.setup_enemy(x, y, direction, name, setup.GFX[s.ENEMY_SHEET],
-                    frame_rect_list, in_range, range_start, range_end)
-    
+                         frame_rect_list, in_range, range_start, range_end)
+        
         self.frames.append(pg.transform.flip(self.frames[2], False, True))
         self.frames.append(pg.transform.flip(self.frames[0], True, False))
         self.frames.append(pg.transform.flip(self.frames[1], True, False))
@@ -220,15 +233,15 @@ class Boss(Enemy):  # [보스] 보스 클래스
     def get_frame_rect(self, color):
         if color == s.COLOR_TYPE_GREEN:
             frame_rect_list = [(150, 0, 16, 24), (180, 0, 16, 24),
-                        (360, 5, 16, 15)]
+                               (360, 5, 16, 15)]
         elif color == s.COLOR_TYPE_RED:
             frame_rect_list = [(150, 30, 16, 24), (180, 30, 16, 24),
-                        (360, 35, 16, 15)]
+                               (360, 35, 16, 15)]
         else:
             frame_rect_list = [(150, 60, 16, 24), (180, 60, 16, 24),
-                        (360, 65, 16, 15)]
+                               (360, 65, 16, 15)]
         return frame_rect_list
-    
+
     def jumped_on(self):
         self.x_vel = 0
         self.frame_index = 2
@@ -239,7 +252,167 @@ class Boss(Enemy):  # [보스] 보스 클래스
         self.rect.bottom = bottom
         self.in_range = False
 
-def create_enemy(item, level): # 몬스터 생성 함수
+
+class FlyProf(Enemy):
+    def __init__(self, x, y, direction, color, in_range,
+                 range_start, range_end, isVertical, name=s.FLY_PROF):
+        Enemy.__init__(self)
+        frame_rect_list = self.get_frame_rect(color)
+        self.setup_enemy(x, y, direction, name, setup.GFX[s.ENEMY_SHEET],
+                         frame_rect_list, in_range, range_start, range_end, isVertical)
+        
+        self.frames.append(pg.transform.flip(self.frames[2], False, True))
+        self.frames.append(pg.transform.flip(self.frames[0], True, False))
+        self.frames.append(pg.transform.flip(self.frames[1], True, False))
+        self.state = s.FLY
+
+    def get_frame_rect(self, color):
+        if color == s.COLOR_TYPE_GREEN:
+            frame_rect_list = [(90, 0, 16, 24), (120, 0, 16, 24),
+                               (330, 5, 16, 15)]
+        else:
+            frame_rect_list = [(90, 30, 16, 24), (120, 30, 16, 24),
+                               (330, 35, 16, 15)]
+        return frame_rect_list
+
+    def jumped_on(self):
+        self.x_vel = 0
+        self.frame_index = 2
+        x = self.rect.x
+        bottom = self.rect.bottom
+        self.rect = self.frames[self.frame_index].get_rect()
+        self.rect.x = x
+        self.rect.bottom = bottom
+        self.in_range = False
+        self.isVertical = False
+
+
+class FireProf(Enemy):
+    def __init__(self, x, y, direction, color, in_range,
+                 range_start, range_end, level, name=s.FIRE_PROF):
+        Enemy.__init__(self)
+        frame_rect_list = [(2, 210, 32, 32), (42, 210, 32, 32),
+                           (82, 210, 32, 32), (122, 210, 32, 32)]
+        self.setup_enemy(x, y, direction, name, setup.GFX[s.ENEMY_SHEET],
+                         frame_rect_list, in_range, range_start, range_end)
+        # right walk images
+        self.frames.append(pg.transform.flip(self.frames[0], True, False))
+        self.frames.append(pg.transform.flip(self.frames[1], True, False))
+        self.frames.append(pg.transform.flip(self.frames[2], True, False))
+        self.frames.append(pg.transform.flip(self.frames[3], True, False))
+        self.x_vel = 0
+        self.gravity = 0.3
+        self.level = level
+        self.fire_timer = 0
+        self.jump_timer = 0
+
+    def load_frames(self, sheet, frame_rect_list):
+        for frame_rect in frame_rect_list:
+            self.frames.append(tools.get_image(sheet, *frame_rect,
+                                               s.BLACK, s.TILE_SIZE_MULTIPLIER))
+
+    def walking(self):
+        if (self.current_time - self.animate_timer) > 250:
+            if self.direction == s.RIGHT:
+                self.frame_index += 1
+                if self.frame_index > 7:
+                    self.frame_index = 4
+            else:
+                self.frame_index += 1
+                if self.frame_index > 3:
+                    self.frame_index = 0
+            self.animate_timer = self.current_time
+
+        self.shoot_fire()
+        if self.should_jump():
+            self.y_vel = -7
+
+    def falling(self):
+        if self.y_vel < 7:
+            self.y_vel += self.gravity
+        self.shoot_fire()
+
+    def should_jump(self):
+        if (self.rect.x - self.level.player.rect.x) < 400:
+            if (self.current_time - self.jump_timer) > 2500:
+                self.jump_timer = self.current_time
+                return True
+        return False
+
+    def shoot_fire(self):
+        if (self.current_time - self.fire_timer) > 3000:
+            self.fire_timer = self.current_time
+            self.level.enemy_group.add(
+                Fire(self.rect.x, self.rect.bottom-20, self.direction))
+
+
+class Fire(Enemy):
+    def __init__(self, x, y, direction, name=s.FIRE):
+        Enemy.__init__(self)
+        frame_rect_list = [(101, 253, 23, 8), (131, 253, 23, 8)]
+        in_range, range_start, range_end = False, 0, 0
+        self.setup_enemy(x, y, direction, name, setup.GFX[s.ENEMY_SHEET],
+                         frame_rect_list, in_range, range_start, range_end)
+        # right images
+        self.frames.append(pg.transform.flip(self.frames[0], True, False))
+        self.frames.append(pg.transform.flip(self.frames[1], True, False))
+        self.state = s.FLY
+        self.x_vel = 5 if self.direction == s.RIGHT else -5
+
+    def check_x_collisions(self, level):
+        sprite_group = pg.sprite.Group(level.ground_step_elevator_group,
+                                       level.tile_group, level.QR_brick_group)
+        sprite = pg.sprite.spritecollideany(self, sprite_group)
+        if sprite:
+            self.kill()
+
+    def start_death_jump(self, direction):
+        self.kill()
+        
+class FireStick(pg.sprite.Sprite):
+    def __init__(self, center_x, center_y, direction, color, radius, name=s.FIRESTICK):
+        pg.sprite.Sprite.__init__(self)
+
+        self.frames = []
+        self.frame_index = 0
+        self.animate_timer = 0
+        self.name = name
+        rect_list = [(96, 144, 8, 8), (104, 144, 8, 8),
+                     (96, 152, 8, 8), (104, 152, 8, 8)]
+        self.load_frames(setup.GFX[s.ITEM_SHEET], rect_list)
+        self.animate_timer = 0
+        self.image = self.frames[self.frame_index]
+        self.rect = self.image.get_rect()
+        self.rect.x = center_x - radius
+        self.rect.y = center_y
+        self.center_x = center_x
+        self.center_y = center_y
+        self.radius = radius
+        self.angle = 0
+
+    def load_frames(self, sheet, frame_rect_list):
+        for frame_rect in frame_rect_list:
+            self.frames.append(tools.get_image(sheet, *frame_rect,
+                                               s.BLACK, s.TILE_SIZE_MULTIPLIER))
+
+    def update(self, game_info, level):
+        self.current_time = game_info[s.CURRENT_TIME]
+        if (self.current_time - self.animate_timer) > 100:
+            if self.frame_index < 3:
+                self.frame_index += 1
+            else:
+                self.frame_index = 0
+            self.animate_timer = self.current_time
+        self.image = self.frames[self.frame_index]
+
+        self.angle += 1
+        if self.angle == 360:
+            self.angle = 0
+        radian = math.radians(self.angle)
+        self.rect.x = self.center_x + math.sin(radian) * self.radius
+        self.rect.y = self.center_y + math.cos(radian) * self.radius
+
+def create_enemy(item, level):  # 몬스터 생성 함수
     dir = s.LEFT if item['direction'] == 0 else s.RIGHT
     color = item[s.COLOR]
     if s.ENEMY_RANGE in item:
@@ -251,9 +424,24 @@ def create_enemy(item, level): # 몬스터 생성 함수
         range_start = range_end = 0
 
     if item['type'] == s.ENEMY_TYPE_BOO:
-        sprite = Boo(item['x'], item['y'], dir, color,
-            in_range, range_start, range_end)
-    elif item['type'] == s.ENEMY_TYPE_BOSS:
-        sprite = Boss(item['x'], item['y'], dir, color,
-            in_range, range_start, range_end)
+        sprite = BOO(item['x'], item['y'], dir, color,
+                     in_range, range_start, range_end)
+    elif item['type'] == s.ENEMY_TYPE_PROF:
+        sprite = Prof(item['x'], item['y'], dir, color,
+                      in_range, range_start, range_end)
+    elif item['type'] == s.ENEMY_TYPE_FLY_PROF:
+        isVertical = False if item['is_vertical'] == 0 else True
+        sprite = FlyProf(item['x'], item['y'], dir, color,
+                         in_range, range_start, range_end, isVertical)
+    elif item['type'] == s.ENEMY_TYPE_FIRE_PROF:
+        sprite = FireProf(item['x'], item['y'], dir, color,
+                          in_range, range_start, range_end, level)
+    elif item['type'] == s.ENEMY_TYPE_FIRESTICK:
+        sprite = []
+        num = item['num']
+        center_x, center_y = item['x'], item['y']
+        for i in range(num):
+            radius = i * 21  # 8 * 2.69 = 21
+            sprite.append(FireStick(center_x, center_y, dir, color,
+                                    radius))
     return sprite
