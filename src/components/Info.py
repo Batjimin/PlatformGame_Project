@@ -1,8 +1,9 @@
 import pygame as pg
 from .. import setup, tools
 from .. import Setting as Set
-from . import coin
+from . import Coin
 
+#pg.sprite.Sprite: 스프라이트의 이미지,위치,충돌 감지 등을 관리하는 기본적인 기능을 제공
 class Character(pg.sprite.Sprite):
     def __init__(self, image):
         pg.sprite.Sprite.__init__(self)
@@ -21,7 +22,7 @@ class Info():
         self.create_font_image_dict()
         self.create_info_labels()
         self.create_state_labels()
-        self.flashing_coin = coin.FlashCoin(280, 53)
+        self.flashing_coin = Coin.FlashCoin(280, 53)
         
     def create_font_image_dict(self):
         self.image_dict = {}
@@ -106,10 +107,10 @@ class Info():
         top = []
         top_score = []
 
-        self.create_label(player1_game, Set.PLAYER1, 272, 360)
-        self.create_label(player2_game, Set.PLAYER2, 272, 405)
-        self.create_label(top, 'TOP - ', 290, 465)
-        self.create_label(top_score, '000000', 400, 465)
+        self.create_label(player1_game, Set.PLAYER1, 350, 360)
+        self.create_label(player2_game, Set.PLAYER2, 350, 405)
+        self.create_label(top, 'TOP - ', 350, 465)
+        self.create_label(top_score, '000000', 460, 465)
         self.state_labels = [player1_game, player2_game, top, top_score,
                             *self.info_labels]
     
@@ -117,8 +118,8 @@ class Info():
         world_label = []
         self.stage_label2 = []
 
-        self.create_label(world_label, 'HUFS', 280, 200)
-        self.create_label(self.stage_label2, '1-1', 430, 200)
+        self.create_label(world_label, 'HUFS', 300, 200)
+        self.create_label(self.stage_label2, '1-1', 450, 200)
         self.state_labels = [world_label, self.stage_label2,
                 *self.info_labels, self.life_total_label]
 
@@ -146,15 +147,19 @@ class Info():
         self.create_label(timeout_label, 'TIME OUT', 290, 310)
         self.state_labels = [timeout_label, *self.info_labels]
 
+    #라벨 생성. 문자열을 label_list에 추가. 
     def create_label(self, label_list, string, x, y):
         for letter in string:
             label_list.append(Character(self.image_dict[letter]))
         self.set_label_rects(label_list, x, y)
     
+    #사각 영역 설정. 
     def set_label_rects(self, label_list, x, y):
+        #각 요소 인덱스와 함께 순회. 가로범위는 문자당 3.
         for i, letter in enumerate(label_list):
             letter.rect.x = x + ((letter.rect.width + 3) * i)
             letter.rect.y = y
+            #하이픈 이미지 조정
             if letter.image == self.image_dict['-']:
                 letter.rect.y += 7
                 letter.rect.x += 2
@@ -168,10 +173,11 @@ class Info():
         self.score = level_info[Set.SCORE]
         self.update_text(self.score_text, self.score)
         self.update_text(self.coin_count_text, level_info[Set.TOTAL_COIN])
-        self.update_text(self.stage_label, level_info[Set.level_NUM])
+        self.update_text(self.stage_label, level_info[Set.LEVEL_NUM])
         self.flashing_coin.update(level_info[Set.CURRENT_TIME])
         if self.state == Set.LOAD_SCREEN:
-            self.update_text(self.stage_label2, level_info[Set.level_NUM])
+            self.update_text(self.stage_label2, level_info[Set.LEVEL_NUM]) #레벨 알려주는 라벨
+        #시간 오차 조정    
         if self.state == Set.LEVEL:
             if (level_info[Set.CURRENT_TIME] - self.current_time) > 1000:
                 self.current_time = level_info[Set.CURRENT_TIME]
@@ -179,16 +185,18 @@ class Info():
                 self.update_text(self.clock_time_label, self.time, True)
     
     def update_text(self, text, score, reset=False):
+        #자릿수 초과 
         if reset and len(text) > len(str(score)):
             text.remove(text[0])
         index = len(text) - 1
+        #점수 뒤에서 순회하며 가져온 문자이미지 text에 할당+사각형 영역 설정
         for digit in reversed(str(score)):
             rect = text[index].rect
             text[index] = Character(self.image_dict[digit])
             text[index].rect = rect
             index -= 1
         
-    #Info 객체의 정보&라벨을 지정된 Surface에 bilt     
+    #Info 객체의 정보&라벨을 지정된 Surface에 blit     
     def draw(self, surface):
         self.draw_info(surface, self.state_labels)
         if self.state == Set.LOAD_SCREEN:
@@ -201,6 +209,3 @@ class Info():
         for label in label_list:
             for letter in label:
                 surface.blit(letter.image, letter.rect)
-
-
-    
