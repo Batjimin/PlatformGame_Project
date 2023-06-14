@@ -39,7 +39,7 @@ class Menu(tools.State):
         image = tools.get_image(setup.GFX['title_screen'], 1, 60, 176, 88,
                             (255, 0, 220), Set.SIZE_MULTIPLIER)
         rect = image.get_rect()
-        rect.x, rect.y = (300, 100)
+        rect.x, rect.y = (200, 100)
         self.image_dict['GAME_NAME_BOX'] = (image, rect)
         
         
